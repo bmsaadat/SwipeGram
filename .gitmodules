@@ -1,0 +1,3 @@
+[submodule "MDCSwipeToChoose"]
+	path = MDCSwipeToChoose
+	url = https://github.com/modocache/MDCSwipeToChoose.git
