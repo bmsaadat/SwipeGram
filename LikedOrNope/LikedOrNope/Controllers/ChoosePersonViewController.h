@@ -27,7 +27,8 @@
 
 @interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate>
 
-@property (nonatomic, strong) Person *currentPerson;
+@property (nonatomic, strong) Person *currentDownPerson;
+@property (nonatomic, strong) Person *currentUpPerson;
 @property (nonatomic, strong) ChoosePersonView *frontCardView;
 @property (nonatomic, strong) ChoosePersonView *backCardView;
 

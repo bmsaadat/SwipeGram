@@ -26,8 +26,8 @@
 #import "Person.h"
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 
-static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
-static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
+//static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
+//static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 @interface ChoosePersonViewController ()
 @property (nonatomic, strong) NSMutableArray *people;
@@ -61,12 +61,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     // the MDCSwipeToChooseDelegate protocol methods to update the front and
     // back views after each user swipe.
     self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    [self.view insertSubview:self.backCardView belowSubview:self.frontCardView];
+    [self.view addSubview:self.backCardView];
 
     // Add buttons to programmatically swipe the view left or right.
     // See the `nopeFrontCardView` and `likeFrontCardView` methods.
-    [self constructNopeButton];
-    [self constructLikedButton];
+//    [self constructNopeButton];
+//    [self constructLikedButton];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -76,27 +76,30 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 #pragma mark - MDCSwipeToChooseDelegate Protocol Methods
 
 // This is called when a user didn't fully swipe left or right.
-- (void)viewDidCancelSwipe:(UIView *)view {
-    NSLog(@"You couldn't decide on %@.", self.currentPerson.name);
-}
+//- (void)viewDidCancelSwipe:(UIView *)view {
+//    NSLog(@"You couldn't decide on %@.", self.currentUpPerson.name);
+//}
 
 // This is called then a user swipes the view fully left or right.
 - (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
-    // MDCSwipeToChooseView shows "NOPE" on swipes to the left,
-    // and "LIKED" on swipes to the right.
-    if (direction == MDCSwipeDirectionLeft) {
-        NSLog(@"You noped %@.", self.currentPerson.name);
-    } else {
-        NSLog(@"You liked %@.", self.currentPerson.name);
-    }
-
+    
     // MDCSwipeToChooseView removes the view from the view hierarchy
     // after it is swiped (this behavior can be customized via the
     // MDCSwipeOptions class). Since the front card view is gone, we
     // move the back card to the front, and create a new back card.
     self.frontCardView = self.backCardView;
-    if ((self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]])) {
+    if ((self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]])) {
         // Fade the back card into view.
+        self.frontCardView.alpha = 0.f;
+        [self.view insertSubview:self.frontCardView belowSubview:self.backCardView];
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.frontCardView.alpha = 1.f;
+                         } completion:nil];
+    }
+    if ((self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]])) {
         self.backCardView.alpha = 0.f;
         [self.view insertSubview:self.backCardView belowSubview:self.frontCardView];
         [UIView animateWithDuration:0.5
@@ -114,7 +117,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     // Keep track of the person currently being chosen.
     // Quick and dirty, just for the purposes of this sample app.
     _frontCardView = frontCardView;
-    self.currentPerson = frontCardView.person;
+    self.currentUpPerson = frontCardView.person;
+}
+
+- (void)setBackCardView:(ChoosePersonView *)backCardView {
+    // Keep track of the person currently being chosen.
+    // Quick and dirty, just for the purposes of this sample app.
+    _backCardView = backCardView;
+    self.currentDownPerson = backCardView.person;
 }
 
 - (NSArray *)defaultPeople {
@@ -167,6 +177,10 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
                                              frame.origin.y - (state.thresholdRatio * 10.f),
                                              CGRectGetWidth(frame),
                                              CGRectGetHeight(frame));
+//        self.frontCardView.frame = CGRectMake([self frontCardViewFrame].origin.x,
+//                                              [self frontCardViewFrame].origin.y - (state.thresholdRatio * 10.f),
+//                                              CGRectGetWidth([self frontCardViewFrame]),
+//                                              CGRectGetHeight([self frontCardViewFrame]));
     };
 
     // Create a personView with the top person in the people array, then pop
@@ -181,71 +195,74 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 #pragma mark View Contruction
 
 - (CGRect)frontCardViewFrame {
-    CGFloat horizontalPadding = 20.f;
-    CGFloat topPadding = 60.f;
-    CGFloat bottomPadding = 200.f;
-    return CGRectMake(horizontalPadding,
+    CGFloat horizontalPadding = 30.f;
+    CGFloat topPadding = 45.f;
+    CGFloat bottomPadding = 350.f;
+    return CGRectMake(10,
                       topPadding,
                       CGRectGetWidth(self.view.frame) - (horizontalPadding * 2),
                       CGRectGetHeight(self.view.frame) - bottomPadding);
 }
 
 - (CGRect)backCardViewFrame {
-    CGRect frontFrame = [self frontCardViewFrame];
-    return CGRectMake(frontFrame.origin.x,
-                      frontFrame.origin.y + 10.f,
-                      CGRectGetWidth(frontFrame),
-                      CGRectGetHeight(frontFrame));
+    CGFloat horizontalPadding = 30.f;
+    CGFloat topPadding = 300.f;
+    CGFloat bottomPadding = 350.f;
+    return CGRectMake(50,
+                      topPadding,
+                      CGRectGetWidth(self.view.frame) - (horizontalPadding * 2),
+                      CGRectGetHeight(self.view.frame) - bottomPadding);
 }
 
-// Create and add the "nope" button.
-- (void)constructNopeButton {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    UIImage *image = [UIImage imageNamed:@"nope"];
-    button.frame = CGRectMake(ChoosePersonButtonHorizontalPadding,
-                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
-                              image.size.width,
-                              image.size.height);
-    [button setImage:image forState:UIControlStateNormal];
-    [button setTintColor:[UIColor colorWithRed:247.f/255.f
-                                         green:91.f/255.f
-                                          blue:37.f/255.f
-                                         alpha:1.f]];
-    [button addTarget:self
-               action:@selector(nopeFrontCardView)
-     forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
-}
-
-// Create and add the "like" button.
-- (void)constructLikedButton {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    UIImage *image = [UIImage imageNamed:@"liked"];
-    button.frame = CGRectMake(CGRectGetMaxX(self.view.frame) - image.size.width - ChoosePersonButtonHorizontalPadding,
-                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
-                              image.size.width,
-                              image.size.height);
-    [button setImage:image forState:UIControlStateNormal];
-    [button setTintColor:[UIColor colorWithRed:29.f/255.f
-                                         green:245.f/255.f
-                                          blue:106.f/255.f
-                                         alpha:1.f]];
-    [button addTarget:self
-               action:@selector(likeFrontCardView)
-     forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
-}
+//// Create and add the "nope" button.
+//- (void)constructNopeButton {
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    UIImage *image = [UIImage imageNamed:@"nope"];
+//    button.frame = CGRectMake(ChoosePersonButtonHorizontalPadding,
+//                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
+//                              image.size.width,
+//                              image.size.height);
+//    [button setImage:image forState:UIControlStateNormal];
+//    [button setTintColor:[UIColor colorWithRed:247.f/255.f
+//                                         green:91.f/255.f
+//                                          blue:37.f/255.f
+//                                         alpha:1.f]];
+//    [button addTarget:self
+//               action:@selector(nopeFrontCardView)
+//     forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:button];
+//}
+//
+//// Create and add the "like" button.
+//- (void)constructLikedButton {
+//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+//    UIImage *image = [UIImage imageNamed:@"liked"];
+//    button.frame = CGRectMake(CGRectGetMaxX(self.view.frame) - image.size.width - ChoosePersonButtonHorizontalPadding,
+//                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
+//                              image.size.width,
+//                              image.size.height);
+//    [button setImage:image forState:UIControlStateNormal];
+//    [button setTintColor:[UIColor colorWithRed:29.f/255.f
+//                                         green:245.f/255.f
+//                                          blue:106.f/255.f
+//                                         alpha:1.f]];
+//    [button addTarget:self
+//               action:@selector(likeFrontCardView)
+//     forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:button];
+//}
 
 #pragma mark Control Events
 
-// Programmatically "nopes" the front card view.
-- (void)nopeFrontCardView {
-    [self.frontCardView mdc_swipe:MDCSwipeDirectionLeft];
-}
-
-// Programmatically "likes" the front card view.
-- (void)likeFrontCardView {
-    [self.frontCardView mdc_swipe:MDCSwipeDirectionRight];
-}
+//// Programmatically "nopes" the front card view.
+//- (void)likeFrontCardView {
+//    [self.frontCardView mdc_swipe:MDCSwipeDirectionLeft];
+//
+//}
+//
+//// Programmatically "likes" the front card view.
+//- (void)likeBackCardView {
+//    [self.backCardView mdc_swipe:MDCSwipeDirectionRight];
+//}
 
 @end
