@@ -1,3 +1,9 @@
 [submodule "MDCSwipeToChoose"]
 	path = MDCSwipeToChoose
 	url = https://github.com/modocache/MDCSwipeToChoose.git
+[submodule "LikedOrNope/instagram-ios-sdk"]
+	path = LikedOrNope/instagram-ios-sdk
+	url = https://github.com/crino/instagram-ios-sdk.git
+[submodule "LikedOrNope/GZIP"]
+	path = LikedOrNope/GZIP
+	url = https://github.com/nicklockwood/GZIP.git

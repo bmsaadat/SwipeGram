@@ -25,6 +25,7 @@
 #import "ChoosePersonViewController.h"
 #import "Person.h"
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
+#import "AppDelegate.h"
 
 //static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 //static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
@@ -34,7 +35,7 @@
 @end
 
 @implementation ChoosePersonViewController
-
+@synthesize loginView;
 #pragma mark - Object Lifecycle
 
 - (instancetype)init {
@@ -42,7 +43,7 @@
     if (self) {
         // This view controller maintains a list of ChoosePersonView
         // instances to display.
-        _people = [[self defaultPeople] mutableCopy];
+        //_people = [[self defaultPeople] mutableCopy];
     }
     return self;
 }
@@ -51,7 +52,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    //[self loadMainViews];
+    [self loadLoginView];
+    
+    
+    /*
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
     self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]];
@@ -67,6 +72,40 @@
     // See the `nopeFrontCardView` and `likeFrontCardView` methods.
 //    [self constructNopeButton];
 //    [self constructLikedButton];
+     
+     */
+}
+
+- (void)tearDownLoginView {
+    [loginView removeFromSuperview];
+    _people = [[self defaultPeople] mutableCopy];
+}
+
+- (void)loadLoginView {
+    loginView = [[InstagramLoginView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:loginView];
+
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    // here i can set accessToken received on previous login
+    appDelegate.instagram.accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"];
+    appDelegate.instagram.sessionDelegate = self;
+    if ([appDelegate.instagram isSessionValid]) {
+        // Tear down login view
+        [self tearDownLoginView];
+    }
+}
+
+- (void)loadMainViews {
+    // Display the first ChoosePersonView in front. Users can swipe to indicate
+    // whether they like or dislike the person displayed.
+    self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]];
+    [self.view addSubview:self.frontCardView];
+    
+    // Display the second ChoosePersonView in back. This view controller uses
+    // the MDCSwipeToChooseDelegate protocol methods to update the front and
+    // back views after each user swipe.
+    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
+    [self.view addSubview:self.backCardView];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -128,10 +167,32 @@
 }
 
 - (NSArray *)defaultPeople {
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+
+    NSMutableArray *imageArray = [NSMutableArray array];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"users/self/feed" forKey:@"method"];
+    [params setObject:appDelegate.instagram.accessToken forKey:@"access_token"];
+    // Make request for this users feed.
+    IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
+    feedRequest.delegate = self;
+    
+    
+    return imageArray;
+    
+    
+    /*
     // It would be trivial to download these from a web service
     // as needed, but for the purposes of this sample app we'll
     // simply store them in memory.
     return @[
+             
+             
+             
+             
+             
+             
+             
         [[Person alloc] initWithName:@"Finn"
                                image:[UIImage imageNamed:@"finn"]
                                  age:15
@@ -156,7 +217,7 @@
                numberOfSharedFriends:1
              numberOfSharedInterests:1
                       numberOfPhotos:2],
-    ];
+    ];*/
 }
 
 - (ChoosePersonView *)popPersonViewWithFrame:(CGRect)frame {
@@ -214,6 +275,51 @@
                       CGRectGetHeight(self.view.frame) - bottomPadding);
 }
 
+
+// IGSessionDelegate
+#pragma mark - IGSessionDelegate
+
+-(void)igDidLogin {
+    NSLog(@"Instagram did login");
+    // here i can store accessToken
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    [[NSUserDefaults standardUserDefaults] setObject:appDelegate.instagram.accessToken forKey:@"accessToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    //IGListViewController* viewController = [[IGListViewController alloc] init];
+    //[self.navigationController pushViewController:viewController animated:YES];
+    [self tearDownLoginView];
+}
+
+-(void)igDidNotLogin:(BOOL)cancelled {
+    NSLog(@"Instagram did not login");
+    NSString* message = nil;
+    if (cancelled) {
+        message = @"Access cancelled!";
+    } else {
+        message = @"Access denied!";
+    }
+    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                        message:message
+                                                       delegate:nil
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+    [alertView show];
+}
+
+-(void)igDidLogout {
+    NSLog(@"Instagram did logout");
+    // remove the accessToken
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"accessToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void)igSessionInvalidated {
+    NSLog(@"Instagram session was invalidated");
+}
+
+
+
 //// Create and add the "nope" button.
 //- (void)constructNopeButton {
 //    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -251,6 +357,76 @@
 //     forControlEvents:UIControlEventTouchUpInside];
 //    [self.view addSubview:button];
 //}
+
+#pragma mark - Request Callbacks
+
+/**
+ * Called just before the request is sent to the server.
+ */
+- (void)requestLoading:(IGRequest *)request {
+    
+}
+
+/**
+ * Called when the server responds and begins to send back data.
+ */
+- (void)request:(IGRequest *)request didReceiveResponse:(NSURLResponse *)response {
+    
+}
+
+/**
+ * Called when an error prevents the request from completing successfully.
+ */
+- (void)request:(IGRequest *)request didFailWithError:(NSError *)error {
+    
+}
+
+/**
+ * Called when a request returns and its response has been parsed into
+ * an object.
+ *
+ * The resulting object may be a dictionary, an array, a string, or a number,
+ * depending on thee format of the API response.
+ */
+- (void)request:(IGRequest *)request didLoad:(id)result {
+    NSMutableArray *newPeopleArray = [NSMutableArray array];
+    
+    NSDictionary *dict = (NSDictionary *)result;
+    NSArray *data = [dict objectForKey:@"data"];
+    for (NSDictionary *post in data) {
+        // Contains low/standard/high resolution images
+        NSDictionary *imageDict = [post objectForKey:@"images"];
+        NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
+        NSString *imageURL = [lowResImageDict objectForKey:@"url"];
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
+        UIImage *image = [UIImage imageWithData:imageData];
+        //UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        //[self.view addSubview:imageView];
+        
+        Person *person = [[Person alloc] initWithName:@"Finn"
+                               image:image
+                                 age:15
+               numberOfSharedFriends:3
+             numberOfSharedInterests:2
+                      numberOfPhotos:1];
+        [newPeopleArray addObject:person];
+        
+    }
+    
+    _people = [newPeopleArray mutableCopy];
+    
+    
+    [self loadMainViews];
+}
+
+/**
+ * Called when a request returns a response.
+ *
+ * The result object is the raw response from the server of type NSData
+ */
+- (void)request:(IGRequest *)request didLoadRawResponse:(NSData *)data {
+    
+}
 
 #pragma mark Control Events
 

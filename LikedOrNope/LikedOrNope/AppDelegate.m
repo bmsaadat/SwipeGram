@@ -25,16 +25,37 @@
 #import "AppDelegate.h"
 #import "ChoosePersonViewController.h"
 
+
+#define INSTAGRAM_CLIENT_ID @"cf6e0677bd384054ac63665dc150f484"
+
+
 @implementation AppDelegate
 
+@synthesize instagram;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.instagram = [[Instagram alloc] initWithClientId:INSTAGRAM_CLIENT_ID delegate:nil];
+
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
 
     self.window.rootViewController = [ChoosePersonViewController new];
 
+    
+    
     return YES;
 }
+
+
+// YOU NEED TO CAPTURE igAPPID:// schema
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [self.instagram handleOpenURL:url];
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [self.instagram handleOpenURL:url];
+}
+
 
 @end

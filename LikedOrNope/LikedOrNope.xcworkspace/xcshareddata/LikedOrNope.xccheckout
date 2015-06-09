@@ -10,6 +10,10 @@
 	<string>LikedOrNope</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>377A0EAF4EA297B1F46D16A2FDFFEDBB8AFC7F63</key>
+		<string>https://github.com/crino/instagram-ios-sdk.git</string>
+		<key>6ACBD9B75A9AF01FED3B43D5A1DC054996850174</key>
+		<string>https://github.com/nicklockwood/GZIP.git</string>
 		<key>F81D34C90CEE1119BF3E6AF071846416A9FD290C</key>
 		<string>https://github.com/abhisheksisodia/SwipeGram.git</string>
 	</dict>
@@ -17,6 +21,10 @@
 	<string>LikedOrNope/LikedOrNope.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>377A0EAF4EA297B1F46D16A2FDFFEDBB8AFC7F63</key>
+		<string>../../LikedOrNope/instagram-ios-sdk/</string>
+		<key>6ACBD9B75A9AF01FED3B43D5A1DC054996850174</key>
+		<string>../../LikedOrNope/GZIP/</string>
 		<key>F81D34C90CEE1119BF3E6AF071846416A9FD290C</key>
 		<string>../..</string>
 	</dict>
@@ -28,6 +36,22 @@
 	<string>F81D34C90CEE1119BF3E6AF071846416A9FD290C</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6ACBD9B75A9AF01FED3B43D5A1DC054996850174</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GZIP</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>377A0EAF4EA297B1F46D16A2FDFFEDBB8AFC7F63</string>
+			<key>IDESourceControlWCCName</key>
+			<string>instagram-ios-sdk</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
