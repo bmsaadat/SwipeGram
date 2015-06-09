@@ -18,7 +18,8 @@
         
         self.backgroundColor = [UIColor whiteColor];
         
-        UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+        UIButton *loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        loginButton.backgroundColor = [UIColor colorWithRed:81/255.0 green:127/255.0 blue:164/255.0 alpha:1.0];
         [loginButton setTitle:@"Login" forState:UIControlStateNormal];
         loginButton.frame = CGRectMake((frame.size.width - buttonSizeWidth)*0.5, (frame.size.height - buttonSizeHeight)*0.5, buttonSizeWidth, buttonSizeHeight);
         [loginButton addTarget:self action:@selector(loginPressed:) forControlEvents:UIControlEventTouchUpInside];
