@@ -54,26 +54,6 @@
     [super viewDidLoad];
     //[self loadMainViews];
     [self loadLoginView];
-    
-    
-    /*
-    // Display the first ChoosePersonView in front. Users can swipe to indicate
-    // whether they like or dislike the person displayed.
-    self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]];
-    [self.view addSubview:self.frontCardView];
-
-    // Display the second ChoosePersonView in back. This view controller uses
-    // the MDCSwipeToChooseDelegate protocol methods to update the front and
-    // back views after each user swipe.
-    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    [self.view addSubview:self.backCardView];
-
-    // Add buttons to programmatically swipe the view left or right.
-    // See the `nopeFrontCardView` and `likeFrontCardView` methods.
-//    [self constructNopeButton];
-//    [self constructLikedButton];
-     
-     */
 }
 
 - (void)tearDownLoginView {
@@ -98,13 +78,13 @@
 - (void)loadMainViews {
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
-    self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]];
+    self.frontCardView = [self popDownPersonViewWithFrame:[self frontCardViewFrame]];
     [self.view addSubview:self.frontCardView];
     
     // Display the second ChoosePersonView in back. This view controller uses
     // the MDCSwipeToChooseDelegate protocol methods to update the front and
     // back views after each user swipe.
-    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
+    self.backCardView = [self popUpPersonViewWithFrame:[self backCardViewFrame]];
     [self.view addSubview:self.backCardView];
 }
 
@@ -121,26 +101,21 @@
 
 // This is called then a user swipes the view fully left or right.
 - (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
-    
-    // MDCSwipeToChooseView removes the view from the view hierarchy
-    // after it is swiped (this behavior can be customized via the
-    // MDCSwipeOptions class). Since the front card view is gone, we
-    // move the back card to the front, and create a new back card.
-    self.frontCardView = self.backCardView;
-    if ((self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]])) {
+    if ((self.frontCardView = [self popDownPersonViewWithFrame:[self frontCardViewFrame]])) {
         // Fade the back card into view.
         self.frontCardView.alpha = 0.f;
-        [self.view insertSubview:self.frontCardView belowSubview:self.backCardView];
+        [self.view insertSubview:self.frontCardView belowSubview:self.frontCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              self.frontCardView.alpha = 1.f;
                          } completion:nil];
+        
     }
-    if ((self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]])) {
+    if ((self.backCardView = [self popUpPersonViewWithFrame:[self backCardViewFrame]])) {
         self.backCardView.alpha = 0.f;
-        [self.view insertSubview:self.backCardView belowSubview:self.frontCardView];
+        [self.view insertSubview:self.backCardView belowSubview:self.backCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -179,48 +154,9 @@
     
     
     return imageArray;
-    
-    
-    /*
-    // It would be trivial to download these from a web service
-    // as needed, but for the purposes of this sample app we'll
-    // simply store them in memory.
-    return @[
-             
-             
-             
-             
-             
-             
-             
-        [[Person alloc] initWithName:@"Finn"
-                               image:[UIImage imageNamed:@"finn"]
-                                 age:15
-               numberOfSharedFriends:3
-             numberOfSharedInterests:2
-                      numberOfPhotos:1],
-        [[Person alloc] initWithName:@"Jake"
-                               image:[UIImage imageNamed:@"jake"]
-                                 age:28
-               numberOfSharedFriends:2
-             numberOfSharedInterests:6
-                      numberOfPhotos:8],
-        [[Person alloc] initWithName:@"Fiona"
-                               image:[UIImage imageNamed:@"fiona"]
-                                 age:14
-               numberOfSharedFriends:1
-             numberOfSharedInterests:3
-                      numberOfPhotos:5],
-        [[Person alloc] initWithName:@"P. Gumball"
-                               image:[UIImage imageNamed:@"prince"]
-                                 age:18
-               numberOfSharedFriends:1
-             numberOfSharedInterests:1
-                      numberOfPhotos:2],
-    ];*/
 }
 
-- (ChoosePersonView *)popPersonViewWithFrame:(CGRect)frame {
+- (ChoosePersonView *)popUpPersonViewWithFrame:(CGRect)frame {
     if ([self.people count] == 0) {
         return nil;
     }
@@ -233,15 +169,11 @@
     options.delegate = self;
     options.threshold = 160.f;
     options.onPan = ^(MDCPanState *state){
-        CGRect frame = [self backCardViewFrame];
-        self.backCardView.frame = CGRectMake(frame.origin.x,
+        CGRect frame = [self frontCardViewFrame];
+        self.frontCardView.frame = CGRectMake(frame.origin.x,
                                              frame.origin.y - (state.thresholdRatio * 10.f),
                                              CGRectGetWidth(frame),
                                              CGRectGetHeight(frame));
-//        self.frontCardView.frame = CGRectMake([self frontCardViewFrame].origin.x,
-//                                              [self frontCardViewFrame].origin.y - (state.thresholdRatio * 10.f),
-//                                              CGRectGetWidth([self frontCardViewFrame]),
-//                                              CGRectGetHeight([self frontCardViewFrame]));
     };
 
     // Create a personView with the top person in the people array, then pop
@@ -250,6 +182,35 @@
                                                                     person:self.people[0]
                                                                    options:options];
     [self.people removeObjectAtIndex:0];
+    return personView;
+}
+
+- (ChoosePersonView *)popDownPersonViewWithFrame:(CGRect)frame {
+    if ([self.people count] == 0) {
+        return nil;
+    }
+    
+    // UIView+MDCSwipeToChoose and MDCSwipeToChooseView are heavily customizable.
+    // Each take an "options" argument. Here, we specify the view controller as
+    // a delegate, and provide a custom callback that moves the back card view
+    // based on how far the user has panned the front card view.
+    MDCSwipeToChooseViewOptions *options = [MDCSwipeToChooseViewOptions new];
+    options.delegate = self;
+    options.threshold = 160.f;
+    options.onPan = ^(MDCPanState *state){
+        CGRect frame = [self backCardViewFrame];
+        self.backCardView.frame = CGRectMake(frame.origin.x,
+                                              frame.origin.y - (state.thresholdRatio * 10.f),
+                                              CGRectGetWidth(frame),
+                                              CGRectGetHeight(frame));
+    };
+    
+    // Create a personView with the top person in the people array, then pop
+    // that person off the stack.
+    ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
+                                                                    person:self.people[1]
+                                                                   options:options];
+    [self.people removeObjectAtIndex:1];
     return personView;
 }
 
@@ -317,46 +278,6 @@
 -(void)igSessionInvalidated {
     NSLog(@"Instagram session was invalidated");
 }
-
-
-
-//// Create and add the "nope" button.
-//- (void)constructNopeButton {
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    UIImage *image = [UIImage imageNamed:@"nope"];
-//    button.frame = CGRectMake(ChoosePersonButtonHorizontalPadding,
-//                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
-//                              image.size.width,
-//                              image.size.height);
-//    [button setImage:image forState:UIControlStateNormal];
-//    [button setTintColor:[UIColor colorWithRed:247.f/255.f
-//                                         green:91.f/255.f
-//                                          blue:37.f/255.f
-//                                         alpha:1.f]];
-//    [button addTarget:self
-//               action:@selector(nopeFrontCardView)
-//     forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:button];
-//}
-//
-//// Create and add the "like" button.
-//- (void)constructLikedButton {
-//    UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//    UIImage *image = [UIImage imageNamed:@"liked"];
-//    button.frame = CGRectMake(CGRectGetMaxX(self.view.frame) - image.size.width - ChoosePersonButtonHorizontalPadding,
-//                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
-//                              image.size.width,
-//                              image.size.height);
-//    [button setImage:image forState:UIControlStateNormal];
-//    [button setTintColor:[UIColor colorWithRed:29.f/255.f
-//                                         green:245.f/255.f
-//                                          blue:106.f/255.f
-//                                         alpha:1.f]];
-//    [button addTarget:self
-//               action:@selector(likeFrontCardView)
-//     forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:button];
-//}
 
 #pragma mark - Request Callbacks
 
@@ -427,18 +348,5 @@
 - (void)request:(IGRequest *)request didLoadRawResponse:(NSData *)data {
     
 }
-
-#pragma mark Control Events
-
-//// Programmatically "nopes" the front card view.
-//- (void)likeFrontCardView {
-//    [self.frontCardView mdc_swipe:MDCSwipeDirectionLeft];
-//
-//}
-//
-//// Programmatically "likes" the front card view.
-//- (void)likeBackCardView {
-//    [self.backCardView mdc_swipe:MDCSwipeDirectionRight];
-//}
 
 @end

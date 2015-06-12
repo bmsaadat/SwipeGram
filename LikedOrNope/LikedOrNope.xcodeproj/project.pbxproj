@@ -7,19 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3AC820FF1B2B47D200A9CC0F /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC820FE1B2B47D200A9CC0F /* GZIP.m */; };
 		49A483B402C049E28055919D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 374A6AE5BCA048DDAD2A8A49 /* libPods.a */; };
-		AA18DC901B267DEB00949EAF /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = AA18DC631B267DEB00949EAF /* .gitignore */; };
-		AA18DCA31B267DEB00949EAF /* IGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DC891B267DEB00949EAF /* IGRequest.m */; };
-		AA18DCA41B267DEB00949EAF /* Instagram.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DC8B1B267DEB00949EAF /* Instagram.m */; };
-		AA18DCA51B267DEB00949EAF /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = AA18DC8F1B267DEB00949EAF /* README.md */; };
 		AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */; };
 		AA18DCD01B27203100949EAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18DCCF1B27203100949EAF /* libz.dylib */; };
+		AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6A84521B2B9F04005C064B /* IGRequest.m */; };
+		AA6A84561B2B9F04005C064B /* Instagram.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6A84541B2B9F04005C064B /* Instagram.m */; };
+		AA6A845D1B2B9F83005C064B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B73F818F233EF00BB5F8E /* AppDelegate.m */; };
 		DA5B73E918F233EF00BB5F8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73E818F233EF00BB5F8E /* Foundation.framework */; };
 		DA5B73EB18F233EF00BB5F8E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */; };
 		DA5B73ED18F233EF00BB5F8E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73EC18F233EF00BB5F8E /* UIKit.framework */; };
 		DA5B73F318F233EF00BB5F8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA5B73F118F233EF00BB5F8E /* InfoPlist.strings */; };
 		DA5B73F518F233EF00BB5F8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B73F418F233EF00BB5F8E /* main.m */; };
-		DA5B73F918F233EF00BB5F8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B73F818F233EF00BB5F8E /* AppDelegate.m */; };
 		DA5B73FB18F233EF00BB5F8E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA5B73FA18F233EF00BB5F8E /* Images.xcassets */; };
 		DA5B740218F233EF00BB5F8E /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B740118F233EF00BB5F8E /* XCTest.framework */; };
 		DA5B740318F233EF00BB5F8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73E818F233EF00BB5F8E /* Foundation.framework */; };
@@ -33,9 +32,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		AA18DCA71B267DEB00949EAF /* PBXContainerItemProxy */ = {
+		AA6A845B1B2B9F13005C064B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = AA18DC8C1B267DEB00949EAF /* instagram-ios-sdk.xcodeproj */;
+			containerPortal = AA6A84571B2B9F13005C064B /* instagram-ios-sdk.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 664E5D02153E8F2400967BB1;
 			remoteInfo = "instagram-ios-sdk";
@@ -53,17 +52,17 @@
 		0F7152BEF35BDBA648B13ABD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		303B4BFC6413578CA86ABA7B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		374A6AE5BCA048DDAD2A8A49 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA18DC631B267DEB00949EAF /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		AA18DC871B267DEB00949EAF /* IGConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGConnect.h; sourceTree = "<group>"; };
-		AA18DC881B267DEB00949EAF /* IGRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IGRequest.h; sourceTree = "<group>"; };
-		AA18DC891B267DEB00949EAF /* IGRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IGRequest.m; sourceTree = "<group>"; };
-		AA18DC8A1B267DEB00949EAF /* Instagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Instagram.h; sourceTree = "<group>"; };
-		AA18DC8B1B267DEB00949EAF /* Instagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Instagram.m; sourceTree = "<group>"; };
-		AA18DC8C1B267DEB00949EAF /* instagram-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = "instagram-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
-		AA18DC8F1B267DEB00949EAF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3AC820FD1B2B47D200A9CC0F /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
+		3AC820FE1B2B47D200A9CC0F /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		AA18DCAC1B267FBA00949EAF /* InstagramLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramLoginView.h; sourceTree = "<group>"; };
 		AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramLoginView.m; sourceTree = "<group>"; };
 		AA18DCCF1B27203100949EAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		AA6A84501B2B9F04005C064B /* IGConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IGConnect.h; path = "instagram-ios-sdk/IGConnect.h"; sourceTree = "<group>"; };
+		AA6A84511B2B9F04005C064B /* IGRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IGRequest.h; path = "instagram-ios-sdk/IGRequest.h"; sourceTree = "<group>"; };
+		AA6A84521B2B9F04005C064B /* IGRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IGRequest.m; path = "instagram-ios-sdk/IGRequest.m"; sourceTree = "<group>"; };
+		AA6A84531B2B9F04005C064B /* Instagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Instagram.h; path = "instagram-ios-sdk/Instagram.h"; sourceTree = "<group>"; };
+		AA6A84541B2B9F04005C064B /* Instagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Instagram.m; path = "instagram-ios-sdk/Instagram.m"; sourceTree = "<group>"; };
+		AA6A84571B2B9F13005C064B /* instagram-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "instagram-ios-sdk.xcodeproj"; path = "instagram-ios-sdk/instagram-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
 		DA5B73E518F233EF00BB5F8E /* LikedOrNope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikedOrNope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B73E818F233EF00BB5F8E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -116,41 +115,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA18DC621B267DEB00949EAF /* instagram-ios-sdk */ = {
+		3AC820FC1B2B47D200A9CC0F /* GZIP */ = {
 			isa = PBXGroup;
 			children = (
-				AA18DC631B267DEB00949EAF /* .gitignore */,
-				AA18DC851B267DEB00949EAF /* instagram-ios-sdk */,
-				AA18DC8F1B267DEB00949EAF /* README.md */,
+				3AC820FD1B2B47D200A9CC0F /* GZIP.h */,
+				3AC820FE1B2B47D200A9CC0F /* GZIP.m */,
+			);
+			name = GZIP;
+			path = GZIP/GZIP;
+			sourceTree = "<group>";
+		};
+		3AC821001B2B483F00A9CC0F /* instagram-ios-sdk */ = {
+			isa = PBXGroup;
+			children = (
+				AA6A84571B2B9F13005C064B /* instagram-ios-sdk.xcodeproj */,
+				3AC821011B2B483F00A9CC0F /* instagram-ios-sdk */,
 			);
 			path = "instagram-ios-sdk";
 			sourceTree = "<group>";
 		};
-		AA18DC851B267DEB00949EAF /* instagram-ios-sdk */ = {
+		3AC821011B2B483F00A9CC0F /* instagram-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
-				AA18DC861B267DEB00949EAF /* instagram-ios-sdk */,
-				AA18DC8C1B267DEB00949EAF /* instagram-ios-sdk.xcodeproj */,
+				AA6A84501B2B9F04005C064B /* IGConnect.h */,
+				AA6A84511B2B9F04005C064B /* IGRequest.h */,
+				AA6A84521B2B9F04005C064B /* IGRequest.m */,
+				AA6A84531B2B9F04005C064B /* Instagram.h */,
+				AA6A84541B2B9F04005C064B /* Instagram.m */,
 			);
 			path = "instagram-ios-sdk";
 			sourceTree = "<group>";
 		};
-		AA18DC861B267DEB00949EAF /* instagram-ios-sdk */ = {
+		AA6A84581B2B9F13005C064B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA18DC871B267DEB00949EAF /* IGConnect.h */,
-				AA18DC881B267DEB00949EAF /* IGRequest.h */,
-				AA18DC891B267DEB00949EAF /* IGRequest.m */,
-				AA18DC8A1B267DEB00949EAF /* Instagram.h */,
-				AA18DC8B1B267DEB00949EAF /* Instagram.m */,
-			);
-			path = "instagram-ios-sdk";
-			sourceTree = "<group>";
-		};
-		AA18DC8D1B267DEB00949EAF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AA18DCA81B267DEB00949EAF /* libinstagram-ios-sdk.a */,
+				AA6A845C1B2B9F13005C064B /* libinstagram-ios-sdk.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,8 +186,9 @@
 		DA5B73E718F233EF00BB5F8E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3AC821001B2B483F00A9CC0F /* instagram-ios-sdk */,
+				3AC820FC1B2B47D200A9CC0F /* GZIP */,
 				AA18DCCF1B27203100949EAF /* libz.dylib */,
-				AA18DC621B267DEB00949EAF /* instagram-ios-sdk */,
 				DA5B73E818F233EF00BB5F8E /* Foundation.framework */,
 				DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */,
 				DA5B73EC18F233EF00BB5F8E /* UIKit.framework */,
@@ -338,8 +338,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = AA18DC8D1B267DEB00949EAF /* Products */;
-					ProjectRef = AA18DC8C1B267DEB00949EAF /* instagram-ios-sdk.xcodeproj */;
+					ProductGroup = AA6A84581B2B9F13005C064B /* Products */;
+					ProjectRef = AA6A84571B2B9F13005C064B /* instagram-ios-sdk.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -351,11 +351,11 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		AA18DCA81B267DEB00949EAF /* libinstagram-ios-sdk.a */ = {
+		AA6A845C1B2B9F13005C064B /* libinstagram-ios-sdk.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = "libinstagram-ios-sdk.a";
-			remoteRef = AA18DCA71B267DEB00949EAF /* PBXContainerItemProxy */;
+			remoteRef = AA6A845B1B2B9F13005C064B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -366,7 +366,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA5B73F318F233EF00BB5F8E /* InfoPlist.strings in Resources */,
-				AA18DC901B267DEB00949EAF /* .gitignore in Resources */,
 				DA5B73FB18F233EF00BB5F8E /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -419,12 +418,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA6A845D1B2B9F83005C064B /* AppDelegate.m in Sources */,
+				AA6A84561B2B9F04005C064B /* Instagram.m in Sources */,
 				DA5B746118F239B700BB5F8E /* ImageLabelView.m in Sources */,
-				DA5B73F918F233EF00BB5F8E /* AppDelegate.m in Sources */,
-				AA18DCA51B267DEB00949EAF /* README.md in Sources */,
 				DA5B745F18F239B700BB5F8E /* ChoosePersonViewController.m in Sources */,
-				AA18DCA31B267DEB00949EAF /* IGRequest.m in Sources */,
-				AA18DCA41B267DEB00949EAF /* Instagram.m in Sources */,
+				3AC820FF1B2B47D200A9CC0F /* GZIP.m in Sources */,
+				AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */,
 				DA5B746018F239B700BB5F8E /* Person.m in Sources */,
 				AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */,
 				DA5B73F518F233EF00BB5F8E /* main.m in Sources */,
