@@ -98,13 +98,13 @@
 - (void)loadMainViews {
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
-    self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]];
+    self.frontCardView = [self popDownPersonViewWithFrame:[self frontCardViewFrame]];
     [self.view addSubview:self.frontCardView];
     
     // Display the second ChoosePersonView in back. This view controller uses
     // the MDCSwipeToChooseDelegate protocol methods to update the front and
     // back views after each user swipe.
-    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
+    self.backCardView = [self popUpPersonViewWithFrame:[self backCardViewFrame]];
     [self.view addSubview:self.backCardView];
 }
 
@@ -126,21 +126,22 @@
     // after it is swiped (this behavior can be customized via the
     // MDCSwipeOptions class). Since the front card view is gone, we
     // move the back card to the front, and create a new back card.
-    self.frontCardView = self.backCardView;
-    if ((self.frontCardView = [self popPersonViewWithFrame:[self frontCardViewFrame]])) {
+//    self.frontCardView = self.backCardView;
+    if ((self.frontCardView = [self popDownPersonViewWithFrame:[self frontCardViewFrame]])) {
         // Fade the back card into view.
         self.frontCardView.alpha = 0.f;
-        [self.view insertSubview:self.frontCardView belowSubview:self.backCardView];
+        [self.view insertSubview:self.frontCardView belowSubview:self.frontCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              self.frontCardView.alpha = 1.f;
                          } completion:nil];
+        
     }
-    if ((self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]])) {
+    if ((self.backCardView = [self popUpPersonViewWithFrame:[self backCardViewFrame]])) {
         self.backCardView.alpha = 0.f;
-        [self.view insertSubview:self.backCardView belowSubview:self.frontCardView];
+        [self.view insertSubview:self.backCardView belowSubview:self.backCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -220,7 +221,7 @@
     ];*/
 }
 
-- (ChoosePersonView *)popPersonViewWithFrame:(CGRect)frame {
+- (ChoosePersonView *)popUpPersonViewWithFrame:(CGRect)frame {
     if ([self.people count] == 0) {
         return nil;
     }
@@ -233,17 +234,42 @@
     options.delegate = self;
     options.threshold = 160.f;
     options.onPan = ^(MDCPanState *state){
-        CGRect frame = [self backCardViewFrame];
-        self.backCardView.frame = CGRectMake(frame.origin.x,
+        CGRect frame = [self frontCardViewFrame];
+        self.frontCardView.frame = CGRectMake(frame.origin.x,
                                              frame.origin.y - (state.thresholdRatio * 10.f),
                                              CGRectGetWidth(frame),
                                              CGRectGetHeight(frame));
-//        self.frontCardView.frame = CGRectMake([self frontCardViewFrame].origin.x,
-//                                              [self frontCardViewFrame].origin.y - (state.thresholdRatio * 10.f),
-//                                              CGRectGetWidth([self frontCardViewFrame]),
-//                                              CGRectGetHeight([self frontCardViewFrame]));
     };
 
+    // Create a personView with the top person in the people array, then pop
+    // that person off the stack.
+    ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
+                                                                    person:self.people[0]
+                                                                   options:options];
+    [self.people removeObjectAtIndex:0];
+    return personView;
+}
+
+- (ChoosePersonView *)popDownPersonViewWithFrame:(CGRect)frame {
+    if ([self.people count] == 0) {
+        return nil;
+    }
+    
+    // UIView+MDCSwipeToChoose and MDCSwipeToChooseView are heavily customizable.
+    // Each take an "options" argument. Here, we specify the view controller as
+    // a delegate, and provide a custom callback that moves the back card view
+    // based on how far the user has panned the front card view.
+    MDCSwipeToChooseViewOptions *options = [MDCSwipeToChooseViewOptions new];
+    options.delegate = self;
+    options.threshold = 160.f;
+    options.onPan = ^(MDCPanState *state){
+        CGRect frame = [self backCardViewFrame];
+        self.backCardView.frame = CGRectMake(frame.origin.x,
+                                              frame.origin.y - (state.thresholdRatio * 10.f),
+                                              CGRectGetWidth(frame),
+                                              CGRectGetHeight(frame));
+    };
+    
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
