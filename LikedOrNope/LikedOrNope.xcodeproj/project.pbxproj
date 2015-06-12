@@ -13,11 +13,6 @@
 		AA18DCA41B267DEB00949EAF /* Instagram.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DC8B1B267DEB00949EAF /* Instagram.m */; };
 		AA18DCA51B267DEB00949EAF /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = AA18DC8F1B267DEB00949EAF /* README.md */; };
 		AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */; };
-		AA18DCC51B271F2900949EAF /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = AA18DCB71B271F2900949EAF /* .travis.yml */; };
-		AA18DCC61B271F2900949EAF /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCBA1B271F2900949EAF /* GZIP.m */; };
-		AA18DCC71B271F2900949EAF /* GZIP.podspec in Resources */ = {isa = PBXBuildFile; fileRef = AA18DCBB1B271F2900949EAF /* GZIP.podspec */; };
-		AA18DCC81B271F2900949EAF /* LICENCE.md in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCBC1B271F2900949EAF /* LICENCE.md */; };
-		AA18DCC91B271F2900949EAF /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCBD1B271F2900949EAF /* README.md */; };
 		AA18DCD01B27203100949EAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18DCCF1B27203100949EAF /* libz.dylib */; };
 		DA5B73E918F233EF00BB5F8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73E818F233EF00BB5F8E /* Foundation.framework */; };
 		DA5B73EB18F233EF00BB5F8E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */; };
@@ -68,12 +63,6 @@
 		AA18DC8F1B267DEB00949EAF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AA18DCAC1B267FBA00949EAF /* InstagramLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramLoginView.h; sourceTree = "<group>"; };
 		AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramLoginView.m; sourceTree = "<group>"; };
-		AA18DCB71B271F2900949EAF /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
-		AA18DCB91B271F2900949EAF /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
-		AA18DCBA1B271F2900949EAF /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
-		AA18DCBB1B271F2900949EAF /* GZIP.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GZIP.podspec; sourceTree = "<group>"; };
-		AA18DCBC1B271F2900949EAF /* LICENCE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENCE.md; sourceTree = "<group>"; };
-		AA18DCBD1B271F2900949EAF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		AA18DCCF1B27203100949EAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		DA5B73E518F233EF00BB5F8E /* LikedOrNope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikedOrNope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B73E818F233EF00BB5F8E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -166,27 +155,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		AA18DCB61B271F2900949EAF /* GZIP */ = {
-			isa = PBXGroup;
-			children = (
-				AA18DCB71B271F2900949EAF /* .travis.yml */,
-				AA18DCB81B271F2900949EAF /* GZIP */,
-				AA18DCBB1B271F2900949EAF /* GZIP.podspec */,
-				AA18DCBC1B271F2900949EAF /* LICENCE.md */,
-				AA18DCBD1B271F2900949EAF /* README.md */,
-			);
-			path = GZIP;
-			sourceTree = "<group>";
-		};
-		AA18DCB81B271F2900949EAF /* GZIP */ = {
-			isa = PBXGroup;
-			children = (
-				AA18DCB91B271F2900949EAF /* GZIP.h */,
-				AA18DCBA1B271F2900949EAF /* GZIP.m */,
-			);
-			path = GZIP;
-			sourceTree = "<group>";
-		};
 		C34114B31FABDB7796A09742 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				AA18DCCF1B27203100949EAF /* libz.dylib */,
-				AA18DCB61B271F2900949EAF /* GZIP */,
 				AA18DC621B267DEB00949EAF /* instagram-ios-sdk */,
 				DA5B73E818F233EF00BB5F8E /* Foundation.framework */,
 				DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */,
@@ -400,8 +367,6 @@
 			files = (
 				DA5B73F318F233EF00BB5F8E /* InfoPlist.strings in Resources */,
 				AA18DC901B267DEB00949EAF /* .gitignore in Resources */,
-				AA18DCC71B271F2900949EAF /* GZIP.podspec in Resources */,
-				AA18DCC51B271F2900949EAF /* .travis.yml in Resources */,
 				DA5B73FB18F233EF00BB5F8E /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,16 +419,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA18DCC61B271F2900949EAF /* GZIP.m in Sources */,
 				DA5B746118F239B700BB5F8E /* ImageLabelView.m in Sources */,
 				DA5B73F918F233EF00BB5F8E /* AppDelegate.m in Sources */,
 				AA18DCA51B267DEB00949EAF /* README.md in Sources */,
-				AA18DCC91B271F2900949EAF /* README.md in Sources */,
 				DA5B745F18F239B700BB5F8E /* ChoosePersonViewController.m in Sources */,
 				AA18DCA31B267DEB00949EAF /* IGRequest.m in Sources */,
 				AA18DCA41B267DEB00949EAF /* Instagram.m in Sources */,
 				DA5B746018F239B700BB5F8E /* Person.m in Sources */,
-				AA18DCC81B271F2900949EAF /* LICENCE.md in Sources */,
 				AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */,
 				DA5B73F518F233EF00BB5F8E /* main.m in Sources */,
 				DA5B746218F239B700BB5F8E /* ChoosePersonView.m in Sources */,

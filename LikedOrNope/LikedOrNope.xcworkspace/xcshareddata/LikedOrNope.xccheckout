@@ -22,9 +22,9 @@
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>377A0EAF4EA297B1F46D16A2FDFFEDBB8AFC7F63</key>
-		<string>../../LikedOrNope/instagram-ios-sdk/</string>
+		<string>../../LikedOrNope/instagram-ios-sdk</string>
 		<key>6ACBD9B75A9AF01FED3B43D5A1DC054996850174</key>
-		<string>../../LikedOrNope/GZIP/</string>
+		<string>../../LikedOrNope/GZIP</string>
 		<key>F81D34C90CEE1119BF3E6AF071846416A9FD290C</key>
 		<string>../..</string>
 	</dict>
