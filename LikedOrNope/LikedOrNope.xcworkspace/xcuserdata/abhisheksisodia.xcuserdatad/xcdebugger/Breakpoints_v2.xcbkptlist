@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LikedOrNope/Controllers/ChoosePersonViewController.m"
-            timestampString = "455295080.775489"
+            timestampString = "455824131.523556"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
             landmarkName = "-loadMainViews"
             landmarkType = "5">
          </BreakpointContent>
