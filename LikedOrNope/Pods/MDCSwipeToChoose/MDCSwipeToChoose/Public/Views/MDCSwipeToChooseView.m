@@ -48,7 +48,6 @@ static CGFloat const MDCSwipeToChooseViewLabelWidth = 65.f;
         [self setupView];
         [self constructImageView];
         [self constructLikedView];
-        [self constructNopeImageView];
         [self setupSwipeToChoose];
     }
     return self;
@@ -85,37 +84,17 @@ static CGFloat const MDCSwipeToChooseViewLabelWidth = 65.f;
     [self.imageView addSubview:self.likedView];
 }
 
-- (void)constructNopeImageView {
-    CGFloat width = CGRectGetMidX(self.imageView.bounds);
-    CGFloat xOrigin = CGRectGetMaxX(_imageView.bounds) - width - MDCSwipeToChooseViewHorizontalPadding;
-    self.nopeView = [[UIImageView alloc] initWithFrame:CGRectMake(xOrigin,
-                                                                  MDCSwipeToChooseViewTopPadding,
-                                                                  width,
-                                                                  MDCSwipeToChooseViewLabelWidth)];
-    [self.nopeView constructBorderedLabelWithText:self.options.nopeText
-                                            color:self.options.nopeColor
-                                            angle:self.options.nopeRotationAngle];
-    self.nopeView.alpha = 0.f;
-    [self.imageView addSubview:self.nopeView];
-}
-
 - (void)setupSwipeToChoose {
     MDCSwipeOptions *options = [MDCSwipeOptions new];
     options.delegate = self.options.delegate;
     options.threshold = self.options.threshold;
 
     __block UIView *likedImageView = self.likedView;
-    __block UIView *nopeImageView = self.nopeView;
     options.onPan = ^(MDCPanState *state) {
         if (state.direction == MDCSwipeDirectionNone) {
             likedImageView.alpha = 0.f;
-            nopeImageView.alpha = 0.f;
-        } else if (state.direction == MDCSwipeDirectionLeft) {
-            likedImageView.alpha = 0.f;
-            nopeImageView.alpha = state.thresholdRatio;
-        } else if (state.direction == MDCSwipeDirectionRight) {
+        } else if (state.direction == MDCSwipeDirectionLeft || state.direction == MDCSwipeDirectionRight) {
             likedImageView.alpha = state.thresholdRatio;
-            nopeImageView.alpha = 0.f;
         }
 
         if (self.options.onPan) {
