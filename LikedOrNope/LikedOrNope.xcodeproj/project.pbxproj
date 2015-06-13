@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3AC820FF1B2B47D200A9CC0F /* GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AC820FE1B2B47D200A9CC0F /* GZIP.m */; };
 		49A483B402C049E28055919D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 374A6AE5BCA048DDAD2A8A49 /* libPods.a */; };
 		AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */; };
 		AA18DCD01B27203100949EAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18DCCF1B27203100949EAF /* libz.dylib */; };
@@ -52,8 +51,6 @@
 		0F7152BEF35BDBA648B13ABD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		303B4BFC6413578CA86ABA7B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		374A6AE5BCA048DDAD2A8A49 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		3AC820FD1B2B47D200A9CC0F /* GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GZIP.h; sourceTree = "<group>"; };
-		3AC820FE1B2B47D200A9CC0F /* GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GZIP.m; sourceTree = "<group>"; };
 		AA18DCAC1B267FBA00949EAF /* InstagramLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramLoginView.h; sourceTree = "<group>"; };
 		AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramLoginView.m; sourceTree = "<group>"; };
 		AA18DCCF1B27203100949EAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -115,16 +112,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3AC820FC1B2B47D200A9CC0F /* GZIP */ = {
-			isa = PBXGroup;
-			children = (
-				3AC820FD1B2B47D200A9CC0F /* GZIP.h */,
-				3AC820FE1B2B47D200A9CC0F /* GZIP.m */,
-			);
-			name = GZIP;
-			path = GZIP/GZIP;
-			sourceTree = "<group>";
-		};
 		3AC821001B2B483F00A9CC0F /* instagram-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				3AC821001B2B483F00A9CC0F /* instagram-ios-sdk */,
-				3AC820FC1B2B47D200A9CC0F /* GZIP */,
 				AA18DCCF1B27203100949EAF /* libz.dylib */,
 				DA5B73E818F233EF00BB5F8E /* Foundation.framework */,
 				DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */,
@@ -422,7 +408,6 @@
 				AA6A84561B2B9F04005C064B /* Instagram.m in Sources */,
 				DA5B746118F239B700BB5F8E /* ImageLabelView.m in Sources */,
 				DA5B745F18F239B700BB5F8E /* ChoosePersonViewController.m in Sources */,
-				3AC820FF1B2B47D200A9CC0F /* GZIP.m in Sources */,
 				AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */,
 				DA5B746018F239B700BB5F8E /* Person.m in Sources */,
 				AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */,
