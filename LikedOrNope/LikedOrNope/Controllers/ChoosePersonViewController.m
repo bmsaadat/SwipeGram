@@ -64,14 +64,14 @@
 - (void)loadMainViews {
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
-    self.frontCardView = [self popDownPersonViewWithFrame:[self frontCardViewFrame]];
-    [self.view addSubview:self.frontCardView];
+    self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]];
+    [self.view addSubview:self.topCardView];
     
     // Display the second ChoosePersonView in back. This view controller uses
     // the MDCSwipeToChooseDelegate protocol methods to update the front and
     // back views after each user swipe.
-    self.backCardView = [self popUpPersonViewWithFrame:[self backCardViewFrame]];
-    [self.view addSubview:self.backCardView];
+    self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
+    [self.view addSubview:self.bottomCardView];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -87,44 +87,44 @@
 
 // This is called then a user swipes the view fully left or right.
 - (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
-    if ((self.frontCardView = [self popDownPersonViewWithFrame:[self frontCardViewFrame]])) {
+    if ((self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]])) {
         // Fade the back card into view.
-        self.frontCardView.alpha = 0.f;
-        [self.view insertSubview:self.frontCardView belowSubview:self.frontCardView];
+        self.topCardView.alpha = 0.f;
+        [self.view insertSubview:self.topCardView belowSubview:self.topCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             self.frontCardView.alpha = 1.f;
+                             self.topCardView.alpha = 1.f;
                          } completion:nil];
         
     }
-    if ((self.backCardView = [self popUpPersonViewWithFrame:[self backCardViewFrame]])) {
-        self.backCardView.alpha = 0.f;
-        [self.view insertSubview:self.backCardView belowSubview:self.backCardView];
+    if ((self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]])) {
+        self.bottomCardView.alpha = 0.f;
+        [self.view insertSubview:self.bottomCardView belowSubview:self.bottomCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
-                             self.backCardView.alpha = 1.f;
+                             self.bottomCardView.alpha = 1.f;
                          } completion:nil];
     }
 }
 
 #pragma mark - Internal Methods
 
-- (void)setFrontCardView:(ChoosePersonView *)frontCardView {
+- (void)settopCardView:(ChoosePersonView *)topCardView {
     // Keep track of the person currently being chosen.
     // Quick and dirty, just for the purposes of this sample app.
-    _frontCardView = frontCardView;
-    self.currentUpPerson = frontCardView.person;
+    _topCardView = topCardView;
+    self.currentUpPerson = topCardView.person;
 }
 
-- (void)setBackCardView:(ChoosePersonView *)backCardView {
+- (void)setbottomCardView:(ChoosePersonView *)bottomCardView {
     // Keep track of the person currently being chosen.
     // Quick and dirty, just for the purposes of this sample app.
-    _backCardView = backCardView;
-    self.currentDownPerson = backCardView.person;
+    _bottomCardView = bottomCardView;
+    self.currentDownPerson = bottomCardView.person;
 }
 
 - (NSArray *)defaultPeople {
@@ -155,8 +155,8 @@
     options.delegate = self;
     options.threshold = 160.f;
     options.onPan = ^(MDCPanState *state){
-        CGRect frame = [self frontCardViewFrame];
-        self.frontCardView.frame = CGRectMake(frame.origin.x,
+        CGRect frame = [self topCardViewFrame];
+        self.topCardView.frame = CGRectMake(frame.origin.x,
                                              frame.origin.y - (state.thresholdRatio * 10.f),
                                              CGRectGetWidth(frame),
                                              CGRectGetHeight(frame));
@@ -184,8 +184,8 @@
     options.delegate = self;
     options.threshold = 160.f;
     options.onPan = ^(MDCPanState *state){
-        CGRect frame = [self backCardViewFrame];
-        self.backCardView.frame = CGRectMake(frame.origin.x,
+        CGRect frame = [self bottomCardViewFrame];
+        self.bottomCardView.frame = CGRectMake(frame.origin.x,
                                               frame.origin.y - (state.thresholdRatio * 10.f),
                                               CGRectGetWidth(frame),
                                               CGRectGetHeight(frame));
@@ -194,15 +194,15 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    person:self.people[1]
+                                                                    person:self.people[0]
                                                                    options:options];
-    [self.people removeObjectAtIndex:1];
+    [self.people removeObjectAtIndex:0];
     return personView;
 }
 
 #pragma mark View Contruction
 
-- (CGRect)frontCardViewFrame {
+- (CGRect)topCardViewFrame {
     CGFloat horizontalPadding = 30.f;
     CGFloat topPadding = 45.f;
     CGFloat bottomPadding = 350.f;
@@ -212,7 +212,7 @@
                       CGRectGetHeight(self.view.frame) - bottomPadding);
 }
 
-- (CGRect)backCardViewFrame {
+- (CGRect)bottomCardViewFrame {
     CGFloat horizontalPadding = 30.f;
     CGFloat topPadding = 300.f;
     CGFloat bottomPadding = 350.f;
