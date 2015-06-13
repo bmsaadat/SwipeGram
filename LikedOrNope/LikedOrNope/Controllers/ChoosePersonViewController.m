@@ -204,8 +204,8 @@
 
 - (CGRect)topCardViewFrame {
     CGFloat horizontalPadding = 30.f;
-    CGFloat topPadding = 45.f;
-    CGFloat bottomPadding = 350.f;
+    CGFloat topPadding = 65.f;
+    CGFloat bottomPadding = 380.f;
     return CGRectMake(10,
                       topPadding,
                       CGRectGetWidth(self.view.frame) - (horizontalPadding * 2),
@@ -214,8 +214,8 @@
 
 - (CGRect)bottomCardViewFrame {
     CGFloat horizontalPadding = 30.f;
-    CGFloat topPadding = 300.f;
-    CGFloat bottomPadding = 350.f;
+    CGFloat topPadding = 280.f;
+    CGFloat bottomPadding = 380.f;
     return CGRectMake(50,
                       topPadding,
                       CGRectGetWidth(self.view.frame) - (horizontalPadding * 2),
