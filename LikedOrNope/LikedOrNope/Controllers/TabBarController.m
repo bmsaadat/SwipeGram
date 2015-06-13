@@ -18,8 +18,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    ChoosePersonViewController *view1 = [[ChoosePersonViewController alloc] init];
-    UIViewController *view2 = [[UIViewController alloc] init];
+    UIViewController *view1 = [[UIViewController alloc] init];
+    ChoosePersonViewController *view2 = [[ChoosePersonViewController alloc] init];
     UIViewController *view3 = [[UIViewController alloc] init];
     
     NSMutableArray *tabViewControllers = [[NSMutableArray alloc] init];
@@ -29,9 +29,11 @@
     
     [self setViewControllers:tabViewControllers];
     //can't set this until after its added to the tab bar
-    view1.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:1];
-    view2.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemTopRated tag:2];
-    view3.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:3];
+    //view1.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:1];
+    view1.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"profile.png"] tag:1];
+    view2.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"home.png"] tag:2];
+    view3.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Leaderboards" image:[UIImage imageNamed:@"leaderboard.png"] tag:3];
+
 }
 
 - (void)didReceiveMemoryWarning {
