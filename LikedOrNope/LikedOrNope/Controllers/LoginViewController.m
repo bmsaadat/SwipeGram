@@ -33,7 +33,7 @@
     appDelegate.instagram.sessionDelegate = self;
     if ([appDelegate.instagram isSessionValid]) {
         // Tear down login view
-        //[self tearDownLoginView];
+        [self tearDownLoginView];
     }
 }
 

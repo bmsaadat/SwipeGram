@@ -30,12 +30,7 @@
 
 @property (nonatomic, strong) Person *currentDownPerson;
 @property (nonatomic, strong) Person *currentUpPerson;
-<<<<<<< HEAD
-@property (nonatomic, strong) ChoosePersonView *frontCardView;
-@property (nonatomic, strong) ChoosePersonView *backCardView;
-=======
 @property (nonatomic, strong) ChoosePersonView *topCardView;
 @property (nonatomic, strong) ChoosePersonView *bottomCardView;
-@property (nonatomic, strong) InstagramLoginView *loginView;
->>>>>>> ebf8fbce77dfb840124ce6e64053eca78516f1f0
+
 @end
