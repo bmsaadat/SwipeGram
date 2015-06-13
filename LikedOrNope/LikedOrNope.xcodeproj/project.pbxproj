@@ -334,6 +334,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = modocache;
 				TargetAttributes = {
+					DA5B73E418F233EF00BB5F8E = {
+						DevelopmentTeam = 4CGK4LQRZ3;
+					};
 					DA5B73FF18F233EF00BB5F8E = {
 						TestTargetID = DA5B73E418F233EF00BB5F8E;
 					};
@@ -564,10 +567,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LikedOrNope/LikedOrNope-Prefix.pch";
 				INFOPLIST_FILE = "LikedOrNope/LikedOrNope-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -578,10 +584,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "LikedOrNope/LikedOrNope-Prefix.pch";
 				INFOPLIST_FILE = "LikedOrNope/LikedOrNope-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
