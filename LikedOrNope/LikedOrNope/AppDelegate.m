@@ -23,8 +23,7 @@
 //
 
 #import "AppDelegate.h"
-#import "ChoosePersonViewController.h"
-
+#import "LoginViewController.h"
 
 #define INSTAGRAM_CLIENT_ID @"cf6e0677bd384054ac63665dc150f484"
 
@@ -40,8 +39,13 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
 
-    self.window.rootViewController = [ChoosePersonViewController new];
+    //self.window.rootViewController = [ChoosePersonViewController new];
+    UINavigationController *navController = [[UINavigationController alloc] init];
+    navController.navigationBar.hidden = YES;
 
+    [navController pushViewController:[LoginViewController new] animated:NO];
+    self.window.rootViewController = navController;
+    
     
     
     return YES;

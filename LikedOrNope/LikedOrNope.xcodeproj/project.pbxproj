@@ -13,6 +13,11 @@
 		AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6A84521B2B9F04005C064B /* IGRequest.m */; };
 		AA6A84561B2B9F04005C064B /* Instagram.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6A84541B2B9F04005C064B /* Instagram.m */; };
 		AA6A845D1B2B9F83005C064B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B73F818F233EF00BB5F8E /* AppDelegate.m */; };
+		AA832CB01B2BB12400D0EC81 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = AA832CAD1B2BB12400D0EC81 /* home.png */; };
+		AA832CB11B2BB12400D0EC81 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = AA832CAE1B2BB12400D0EC81 /* profile.png */; };
+		AA832CB21B2BB12400D0EC81 /* search.png in Resources */ = {isa = PBXBuildFile; fileRef = AA832CAF1B2BB12400D0EC81 /* search.png */; };
+		AA832CB51B2BB2D800D0EC81 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA832CB41B2BB2D800D0EC81 /* TabBarController.m */; };
+		AA832CB81B2BBF0B00D0EC81 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA832CB71B2BBF0B00D0EC81 /* LoginViewController.m */; };
 		DA5B73E918F233EF00BB5F8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73E818F233EF00BB5F8E /* Foundation.framework */; };
 		DA5B73EB18F233EF00BB5F8E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */; };
 		DA5B73ED18F233EF00BB5F8E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73EC18F233EF00BB5F8E /* UIKit.framework */; };
@@ -60,6 +65,13 @@
 		AA6A84531B2B9F04005C064B /* Instagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Instagram.h; path = "instagram-ios-sdk/Instagram.h"; sourceTree = "<group>"; };
 		AA6A84541B2B9F04005C064B /* Instagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Instagram.m; path = "instagram-ios-sdk/Instagram.m"; sourceTree = "<group>"; };
 		AA6A84571B2B9F13005C064B /* instagram-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "instagram-ios-sdk.xcodeproj"; path = "instagram-ios-sdk/instagram-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
+		AA832CAD1B2BB12400D0EC81 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		AA832CAE1B2BB12400D0EC81 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		AA832CAF1B2BB12400D0EC81 /* search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search.png; sourceTree = "<group>"; };
+		AA832CB31B2BB2D800D0EC81 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
+		AA832CB41B2BB2D800D0EC81 /* TabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarController.m; sourceTree = "<group>"; };
+		AA832CB61B2BBF0B00D0EC81 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		AA832CB71B2BBF0B00D0EC81 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		DA5B73E518F233EF00BB5F8E /* LikedOrNope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikedOrNope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B73E818F233EF00BB5F8E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -141,6 +153,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AA832CAC1B2BB12400D0EC81 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				AA832CAD1B2BB12400D0EC81 /* home.png */,
+				AA832CAE1B2BB12400D0EC81 /* profile.png */,
+				AA832CAF1B2BB12400D0EC81 /* search.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 		C34114B31FABDB7796A09742 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +175,7 @@
 		DA5B73DC18F233EF00BB5F8E = {
 			isa = PBXGroup;
 			children = (
+				AA832CAC1B2BB12400D0EC81 /* Assets */,
 				DA5B73EE18F233EF00BB5F8E /* LikedOrNope */,
 				DA5B740718F233EF00BB5F8E /* LikedOrNopeTests */,
 				DA5B73E718F233EF00BB5F8E /* Frameworks */,
@@ -232,6 +255,10 @@
 			children = (
 				DA5B745518F239B700BB5F8E /* ChoosePersonViewController.h */,
 				DA5B745618F239B700BB5F8E /* ChoosePersonViewController.m */,
+				AA832CB31B2BB2D800D0EC81 /* TabBarController.h */,
+				AA832CB41B2BB2D800D0EC81 /* TabBarController.m */,
+				AA832CB61B2BBF0B00D0EC81 /* LoginViewController.h */,
+				AA832CB71B2BBF0B00D0EC81 /* LoginViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -351,8 +378,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA832CB21B2BB12400D0EC81 /* search.png in Resources */,
 				DA5B73F318F233EF00BB5F8E /* InfoPlist.strings in Resources */,
 				DA5B73FB18F233EF00BB5F8E /* Images.xcassets in Resources */,
+				AA832CB01B2BB12400D0EC81 /* home.png in Resources */,
+				AA832CB11B2BB12400D0EC81 /* profile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,7 +441,9 @@
 				AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */,
 				DA5B746018F239B700BB5F8E /* Person.m in Sources */,
 				AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */,
+				AA832CB51B2BB2D800D0EC81 /* TabBarController.m in Sources */,
 				DA5B73F518F233EF00BB5F8E /* main.m in Sources */,
+				AA832CB81B2BBF0B00D0EC81 /* LoginViewController.m in Sources */,
 				DA5B746218F239B700BB5F8E /* ChoosePersonView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

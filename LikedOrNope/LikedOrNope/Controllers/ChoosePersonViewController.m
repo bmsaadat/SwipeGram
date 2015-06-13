@@ -35,7 +35,6 @@
 @end
 
 @implementation ChoosePersonViewController
-@synthesize loginView;
 #pragma mark - Object Lifecycle
 
 - (instancetype)init {
@@ -52,28 +51,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[self loadMainViews];
-    [self loadLoginView];
+    [self defaultPeople];
 }
 
 - (void)tearDownLoginView {
-    [loginView removeFromSuperview];
+    //[loginView removeFromSuperview];
     _people = [[self defaultPeople] mutableCopy];
 }
 
-- (void)loadLoginView {
-    loginView = [[InstagramLoginView alloc] initWithFrame:self.view.frame];
-    [self.view addSubview:loginView];
 
-    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    // here i can set accessToken received on previous login
-    appDelegate.instagram.accessToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"];
-    appDelegate.instagram.sessionDelegate = self;
-    if ([appDelegate.instagram isSessionValid]) {
-        // Tear down login view
-        //[self tearDownLoginView];
-    }
-}
 
 - (void)loadMainViews {
     // Display the first ChoosePersonView in front. Users can swipe to indicate
@@ -236,48 +222,6 @@
                       CGRectGetHeight(self.view.frame) - bottomPadding);
 }
 
-
-// IGSessionDelegate
-#pragma mark - IGSessionDelegate
-
--(void)igDidLogin {
-    NSLog(@"Instagram did login");
-    // here i can store accessToken
-    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    [[NSUserDefaults standardUserDefaults] setObject:appDelegate.instagram.accessToken forKey:@"accessToken"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-    //IGListViewController* viewController = [[IGListViewController alloc] init];
-    //[self.navigationController pushViewController:viewController animated:YES];
-    [self tearDownLoginView];
-}
-
--(void)igDidNotLogin:(BOOL)cancelled {
-    NSLog(@"Instagram did not login");
-    NSString* message = nil;
-    if (cancelled) {
-        message = @"Access cancelled!";
-    } else {
-        message = @"Access denied!";
-    }
-    UIAlertView* alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                        message:message
-                                                       delegate:nil
-                                              cancelButtonTitle:@"Ok"
-                                              otherButtonTitles:nil];
-    [alertView show];
-}
-
--(void)igDidLogout {
-    NSLog(@"Instagram did logout");
-    // remove the accessToken
-    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"accessToken"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
--(void)igSessionInvalidated {
-    NSLog(@"Instagram session was invalidated");
-}
 
 #pragma mark - Request Callbacks
 

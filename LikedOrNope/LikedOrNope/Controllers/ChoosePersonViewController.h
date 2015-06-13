@@ -24,7 +24,6 @@
 
 #import <UIKit/UIKit.h>
 #import "ChoosePersonView.h"
-#import "InstagramLoginView.h"
 #import "Instagram.h"
 
 @interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate, IGSessionDelegate, IGRequestDelegate>
@@ -33,5 +32,4 @@
 @property (nonatomic, strong) Person *currentUpPerson;
 @property (nonatomic, strong) ChoosePersonView *frontCardView;
 @property (nonatomic, strong) ChoosePersonView *backCardView;
-@property (nonatomic, strong) InstagramLoginView *loginView;
 @end
