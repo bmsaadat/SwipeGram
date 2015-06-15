@@ -35,6 +35,7 @@
 @end
 
 @implementation ChoosePersonViewController
+@synthesize max_id;
 #pragma mark - Object Lifecycle
 
 - (instancetype)init {
@@ -42,6 +43,7 @@
     if (self) {
         // This view controller maintains a list of ChoosePersonView
         // instances to display.
+        _people = [NSMutableArray array];
         //_people = [[self defaultPeople] mutableCopy];
     }
     return self;
@@ -87,6 +89,10 @@
 
 // This is called then a user swipes the view fully left or right.
 - (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
+    if (self.people.count < 3) {
+        [self defaultPeople];
+    }
+    
         [self.bottomCardView removeFromSuperview];
         self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
         self.bottomCardView.alpha = 0.f;
@@ -133,6 +139,9 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:@"users/self/feed" forKey:@"method"];
     [params setObject:appDelegate.instagram.accessToken forKey:@"access_token"];
+    if (max_id) {
+        [params setObject:max_id forKey:@"max_id"];
+    }
     // Make request for this users feed.
     IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
     feedRequest.delegate = self;
@@ -252,6 +261,9 @@
     NSMutableArray *newPeopleArray = [NSMutableArray array];
     
     NSDictionary *dict = (NSDictionary *)result;
+    NSDictionary *pagination = [dict objectForKey:@"pagination"];
+    self.max_id = [pagination objectForKey:@"next_max_id"];
+    
     NSArray *data = [dict objectForKey:@"data"];
     for (NSDictionary *post in data) {
         // Contains low/standard/high resolution images
@@ -273,10 +285,11 @@
         
     }
     
-    _people = [newPeopleArray mutableCopy];
+    [self.people addObjectsFromArray:[newPeopleArray mutableCopy]];
     
-    
-    [self loadMainViews];
+    if (!self.topCardView && !self.bottomCardView) {
+        [self loadMainViews];
+    }
 }
 
 /**

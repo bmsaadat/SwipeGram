@@ -33,4 +33,6 @@
 @property (nonatomic, strong) ChoosePersonView *topCardView;
 @property (nonatomic, strong) ChoosePersonView *bottomCardView;
 
+// Pagination -- specifies the next feed of images
+@property (nonatomic, strong) NSString *max_id;
 @end
