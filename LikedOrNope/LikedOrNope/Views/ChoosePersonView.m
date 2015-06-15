@@ -37,12 +37,12 @@ static const CGFloat ChoosePersonViewImageLabelWidth = 42.f;
 @end
 
 @implementation ChoosePersonView
-
+@synthesize isTop;
 #pragma mark - Object Lifecycle
 
 - (instancetype)initWithFrame:(CGRect)frame
                        person:(Person *)person
-                      options:(MDCSwipeToChooseViewOptions *)options {
+                      options:(MDCSwipeToChooseViewOptions *)options{
     self = [super initWithFrame:frame options:options];
     if (self) {
         _person = person;

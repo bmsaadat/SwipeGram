@@ -30,7 +30,7 @@
 @interface ChoosePersonView : MDCSwipeToChooseView
 
 @property (nonatomic, strong, readonly) Person *person;
-
+@property (nonatomic) bool isTop;
 - (instancetype)initWithFrame:(CGRect)frame
                        person:(Person *)person
                       options:(MDCSwipeToChooseViewOptions *)options;

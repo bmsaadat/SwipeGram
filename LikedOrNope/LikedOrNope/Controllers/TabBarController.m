@@ -33,7 +33,7 @@
     view1.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Profile" image:[UIImage imageNamed:@"profile.png"] tag:1];
     view2.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"home.png"] tag:2];
     view3.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Leaderboards" image:[UIImage imageNamed:@"leaderboard.png"] tag:3];
-
+    [self setSelectedViewController:view2];
 }
 
 - (void)didReceiveMemoryWarning {

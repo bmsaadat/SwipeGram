@@ -87,28 +87,27 @@
 
 // This is called then a user swipes the view fully left or right.
 - (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
-    if ((self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]])) {
-        // Fade the back card into view.
-        self.topCardView.alpha = 0.f;
-        [self.view insertSubview:self.topCardView belowSubview:self.topCardView];
-        [UIView animateWithDuration:0.5
-                              delay:0.0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             self.topCardView.alpha = 1.f;
-                         } completion:nil];
-        
-    }
-    if ((self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]])) {
+        [self.bottomCardView removeFromSuperview];
+        self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
         self.bottomCardView.alpha = 0.f;
-        [self.view insertSubview:self.bottomCardView belowSubview:self.bottomCardView];
+        [self.view addSubview:self.bottomCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              self.bottomCardView.alpha = 1.f;
                          } completion:nil];
-    }
+
+        [self.topCardView removeFromSuperview];
+        self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]];
+        self.topCardView.alpha = 0.f;
+        [self.view addSubview:self.topCardView];
+        [UIView animateWithDuration:0.5
+                              delay:0.0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.topCardView.alpha = 1.f;
+                         } completion:nil];
 }
 
 #pragma mark - Internal Methods
@@ -167,6 +166,7 @@
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
                                                                     person:self.people[0]
                                                                    options:options];
+    personView.isTop = NO;
     [self.people removeObjectAtIndex:0];
     return personView;
 }
@@ -196,6 +196,7 @@
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
                                                                     person:self.people[0]
                                                                    options:options];
+    personView.isTop = YES;
     [self.people removeObjectAtIndex:0];
     return personView;
 }
