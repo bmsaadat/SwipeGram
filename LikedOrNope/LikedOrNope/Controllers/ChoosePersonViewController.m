@@ -203,23 +203,17 @@
 #pragma mark View Contruction
 
 - (CGRect)topCardViewFrame {
-    CGFloat horizontalPadding = 30.f;
-    CGFloat topPadding = 65.f;
-    CGFloat bottomPadding = 380.f;
-    return CGRectMake(10,
-                      topPadding,
-                      CGRectGetWidth(self.view.frame) - (horizontalPadding * 2),
-                      CGRectGetHeight(self.view.frame) - bottomPadding);
+    return CGRectMake(20,
+                      65.f,
+                      200.f,
+                      200.f);
 }
 
 - (CGRect)bottomCardViewFrame {
-    CGFloat horizontalPadding = 30.f;
-    CGFloat topPadding = 280.f;
-    CGFloat bottomPadding = 380.f;
-    return CGRectMake(50,
-                      topPadding,
-                      CGRectGetWidth(self.view.frame) - (horizontalPadding * 2),
-                      CGRectGetHeight(self.view.frame) - bottomPadding);
+    return CGRectMake(100,
+                      290.f,
+                      200.f,
+                      200.f);
 }
 
 
