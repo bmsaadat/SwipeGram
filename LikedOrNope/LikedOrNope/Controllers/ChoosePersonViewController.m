@@ -161,7 +161,7 @@
     // based on how far the user has panned the front card view.
     MDCSwipeToChooseViewOptions *options = [MDCSwipeToChooseViewOptions new];
     options.delegate = self;
-    options.threshold = 160.f;
+    options.threshold = 100.f;
     options.onPan = ^(MDCPanState *state){
         CGRect frame = [self topCardViewFrame];
         self.topCardView.frame = CGRectMake(frame.origin.x,
@@ -191,7 +191,7 @@
     // based on how far the user has panned the front card view.
     MDCSwipeToChooseViewOptions *options = [MDCSwipeToChooseViewOptions new];
     options.delegate = self;
-    options.threshold = 160.f;
+    options.threshold = 100.f;
     options.onPan = ^(MDCPanState *state){
         CGRect frame = [self bottomCardViewFrame];
         self.bottomCardView.frame = CGRectMake(frame.origin.x,
