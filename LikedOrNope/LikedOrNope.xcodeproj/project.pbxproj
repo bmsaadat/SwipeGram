@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A9B90D01B30B08900B76901 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B90CF1B30B08900B76901 /* ProfileViewController.m */; };
+		3A9B90D41B30B0B400B76901 /* UIView+Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B90D31B30B0B400B76901 /* UIView+Facade.m */; };
 		49A483B402C049E28055919D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 374A6AE5BCA048DDAD2A8A49 /* libPods.a */; };
 		AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */; };
 		AA18DCD01B27203100949EAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18DCCF1B27203100949EAF /* libz.dylib */; };
@@ -56,6 +58,10 @@
 		0F7152BEF35BDBA648B13ABD /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		303B4BFC6413578CA86ABA7B /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		374A6AE5BCA048DDAD2A8A49 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3A9B90CD1B30B08100B76901 /* ProfileViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		3A9B90CF1B30B08900B76901 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
+		3A9B90D21B30B0B400B76901 /* UIView+Facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Facade.h"; sourceTree = "<group>"; };
+		3A9B90D31B30B0B400B76901 /* UIView+Facade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Facade.m"; sourceTree = "<group>"; };
 		AA18DCAC1B267FBA00949EAF /* InstagramLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramLoginView.h; sourceTree = "<group>"; };
 		AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramLoginView.m; sourceTree = "<group>"; };
 		AA18DCCF1B27203100949EAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -124,6 +130,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3A9B90D11B30B0B400B76901 /* Facade */ = {
+			isa = PBXGroup;
+			children = (
+				3A9B90D21B30B0B400B76901 /* UIView+Facade.h */,
+				3A9B90D31B30B0B400B76901 /* UIView+Facade.m */,
+			);
+			path = Facade;
+			sourceTree = "<group>";
+		};
 		3AC821001B2B483F00A9CC0F /* instagram-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +211,7 @@
 		DA5B73E718F233EF00BB5F8E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3A9B90D11B30B0B400B76901 /* Facade */,
 				3AC821001B2B483F00A9CC0F /* instagram-ios-sdk */,
 				AA18DCCF1B27203100949EAF /* libz.dylib */,
 				DA5B73E818F233EF00BB5F8E /* Foundation.framework */,
@@ -253,6 +269,8 @@
 		DA5B745418F239B700BB5F8E /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				3A9B90CD1B30B08100B76901 /* ProfileViewController.h */,
+				3A9B90CF1B30B08900B76901 /* ProfileViewController.m */,
 				DA5B745518F239B700BB5F8E /* ChoosePersonViewController.h */,
 				DA5B745618F239B700BB5F8E /* ChoosePersonViewController.m */,
 				AA832CB31B2BB2D800D0EC81 /* TabBarController.h */,
@@ -444,9 +462,11 @@
 				AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */,
 				DA5B746018F239B700BB5F8E /* Person.m in Sources */,
 				AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */,
+				3A9B90D41B30B0B400B76901 /* UIView+Facade.m in Sources */,
 				AA832CB51B2BB2D800D0EC81 /* TabBarController.m in Sources */,
 				DA5B73F518F233EF00BB5F8E /* main.m in Sources */,
 				AA832CB81B2BBF0B00D0EC81 /* LoginViewController.m in Sources */,
+				3A9B90D01B30B08900B76901 /* ProfileViewController.m in Sources */,
 				DA5B746218F239B700BB5F8E /* ChoosePersonView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
