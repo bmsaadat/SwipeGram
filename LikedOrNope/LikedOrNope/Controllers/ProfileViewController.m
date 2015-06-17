@@ -38,7 +38,8 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
 }
 
 - (void)setupSubviews {
-    UIColor *componentColor = [UIColor colorWithRed:11/255.0 green:179/255.0 blue:252/255.0 alpha:1.0];
+    UIColor *scoreButtonColor = [UIColor colorWithRed:11/255.0 green:179/255.0 blue:252/255.0 alpha:1.0];
+    UIColor *logoutButtonColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
     
     _scrollView = [UIScrollView new];
     [self.view addSubview:_scrollView];
@@ -72,10 +73,10 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     _scoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_scoreButton setTitle:@"19,3030" forState:UIControlStateNormal];
     [_scoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_scoreButton setBackgroundColor:componentColor];
+    [_scoreButton setBackgroundColor:scoreButtonColor];
     _scoreButton.layer.cornerRadius = 5;
     _scoreButton.layer.borderWidth = 1;
-    _scoreButton.layer.borderColor = componentColor.CGColor;
+    _scoreButton.layer.borderColor = scoreButtonColor.CGColor;
     [_scrollView addSubview:_scoreButton];
     
     
@@ -86,6 +87,9 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [logoutButton addTarget:self action:@selector(logoutPressed:) forControlEvents:UIControlEventTouchUpInside];
     [logoutButton addTarget:self action:@selector(logoutTouchBegin:) forControlEvents:UIControlEventTouchDown];
     [logoutButton addTarget:self action:@selector(logoutTouchEnded:) forControlEvents:UIControlEventTouchCancel|UIControlEventTouchUpOutside];
+    logoutButton.layer.cornerRadius = 5;
+    logoutButton.layer.borderWidth = 1;
+    logoutButton.layer.borderColor = logoutButtonColor.CGColor;
 
     [_scrollView addSubview:logoutButton];
 }
