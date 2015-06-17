@@ -71,7 +71,7 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [_scrollView addSubview:_usernameLabel];
     
     _scoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_scoreButton setTitle:@"19,3030" forState:UIControlStateNormal];
+    [_scoreButton setTitle:@"193,030" forState:UIControlStateNormal];
     [_scoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_scoreButton setBackgroundColor:scoreButtonColor];
     _scoreButton.layer.cornerRadius = 5;
@@ -81,7 +81,7 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     
     
     logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    logoutButton.backgroundColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
+    logoutButton.backgroundColor = logoutButtonColor;
     [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
     logoutButton.frame = CGRectMake((_scrollView.frame.size.width - buttonSizeWidth)*0.5, (_scrollView.frame.size.height - buttonSizeHeight)*0.5, buttonSizeWidth, buttonSizeHeight);
     [logoutButton addTarget:self action:@selector(logoutPressed:) forControlEvents:UIControlEventTouchUpInside];

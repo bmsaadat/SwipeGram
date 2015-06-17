@@ -9,6 +9,7 @@
 #import "TabBarController.h"
 #import "ChoosePersonViewController.h"
 #import "ProfileViewController.h"
+#import "LeaderboardViewController.h"
 
 @interface TabBarController ()
 
@@ -21,7 +22,7 @@
     // Do any additional setup after loading the view.
     ProfileViewController *view1 = [[ProfileViewController alloc] init];
     ChoosePersonViewController *view2 = [[ChoosePersonViewController alloc] init];
-    UIViewController *view3 = [[UIViewController alloc] init];
+    LeaderboardViewController *view3 = [[LeaderboardViewController alloc] init];
     
     NSMutableArray *tabViewControllers = [[NSMutableArray alloc] init];
     [tabViewControllers addObject:view1];
