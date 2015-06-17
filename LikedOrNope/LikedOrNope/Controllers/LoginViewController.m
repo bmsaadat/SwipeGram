@@ -40,6 +40,7 @@
 - (void)tearDownLoginView {
     TabBarController *tabBarController = [[TabBarController alloc] init];
     [self.navigationController pushViewController:tabBarController animated:YES];
+    [self removeFromParentViewController];
 }
 
 - (void)didReceiveMemoryWarning {

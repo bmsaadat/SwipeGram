@@ -42,7 +42,10 @@
     //self.window.rootViewController = [ChoosePersonViewController new];
     UINavigationController *navController = [[UINavigationController alloc] init];
     navController.navigationBar.hidden = YES;
-
+    if ([navController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        navController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    
     [navController pushViewController:[LoginViewController new] animated:NO];
     self.window.rootViewController = navController;
     
