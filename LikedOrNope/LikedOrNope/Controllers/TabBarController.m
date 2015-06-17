@@ -8,6 +8,7 @@
 
 #import "TabBarController.h"
 #import "ChoosePersonViewController.h"
+#import "ProfileViewController.h"
 
 @interface TabBarController ()
 
@@ -18,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIViewController *view1 = [[UIViewController alloc] init];
+    ProfileViewController *view1 = [[ProfileViewController alloc] init];
     ChoosePersonViewController *view2 = [[ChoosePersonViewController alloc] init];
     UIViewController *view3 = [[UIViewController alloc] init];
     

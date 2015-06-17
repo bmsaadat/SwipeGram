@@ -74,7 +74,7 @@ static CGFloat const MDCSwipeToChooseViewLabelWidth = 65.f;
 - (void)constructLikedView {
     CGRect frame = CGRectMake(MDCSwipeToChooseViewHorizontalPadding,
                               MDCSwipeToChooseViewTopPadding,
-                              CGRectGetMidX(_imageView.bounds),
+                              150.f,
                               MDCSwipeToChooseViewLabelWidth);
     self.likedView = [[UIView alloc] initWithFrame:frame];
     [self.likedView constructBorderedLabelWithText:self.options.likedText
