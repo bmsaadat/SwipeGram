@@ -15,6 +15,13 @@
 		AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6A84521B2B9F04005C064B /* IGRequest.m */; };
 		AA6A84561B2B9F04005C064B /* Instagram.m in Sources */ = {isa = PBXBuildFile; fileRef = AA6A84541B2B9F04005C064B /* Instagram.m */; };
 		AA6A845D1B2B9F83005C064B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DA5B73F818F233EF00BB5F8E /* AppDelegate.m */; };
+		AA7D005D1B31217B002C28C3 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = AA7D005C1B31217B002C28C3 /* logo.png */; };
+		AA7D00601B312BB8002C28C3 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA7D005F1B312BB8002C28C3 /* logo@2x.png */; };
+		AA7D00631B312D5F002C28C3 /* TopBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7D00621B312D5F002C28C3 /* TopBarView.m */; };
+		AA7D00661B31307B002C28C3 /* hamburger.png in Resources */ = {isa = PBXBuildFile; fileRef = AA7D00641B31307B002C28C3 /* hamburger.png */; };
+		AA7D00671B31307B002C28C3 /* hamburger@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AA7D00651B31307B002C28C3 /* hamburger@2x.png */; };
+		AA7D006A1B3131FB002C28C3 /* HamburgerMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7D00691B3131FB002C28C3 /* HamburgerMenuView.m */; };
+		AA7D00731B313638002C28C3 /* ColourConfig.h in Sources */ = {isa = PBXBuildFile; fileRef = AA7D00721B313638002C28C3 /* ColourConfig.h */; };
 		AA832CB01B2BB12400D0EC81 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = AA832CAD1B2BB12400D0EC81 /* home.png */; };
 		AA832CB11B2BB12400D0EC81 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = AA832CAE1B2BB12400D0EC81 /* profile.png */; };
 		AA832CB51B2BB2D800D0EC81 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA832CB41B2BB2D800D0EC81 /* TabBarController.m */; };
@@ -71,6 +78,15 @@
 		AA6A84531B2B9F04005C064B /* Instagram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Instagram.h; path = "instagram-ios-sdk/Instagram.h"; sourceTree = "<group>"; };
 		AA6A84541B2B9F04005C064B /* Instagram.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Instagram.m; path = "instagram-ios-sdk/Instagram.m"; sourceTree = "<group>"; };
 		AA6A84571B2B9F13005C064B /* instagram-ios-sdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "instagram-ios-sdk.xcodeproj"; path = "instagram-ios-sdk/instagram-ios-sdk.xcodeproj"; sourceTree = "<group>"; };
+		AA7D005C1B31217B002C28C3 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		AA7D005F1B312BB8002C28C3 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
+		AA7D00611B312D5F002C28C3 /* TopBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBarView.h; sourceTree = "<group>"; };
+		AA7D00621B312D5F002C28C3 /* TopBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBarView.m; sourceTree = "<group>"; };
+		AA7D00641B31307B002C28C3 /* hamburger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hamburger.png; sourceTree = "<group>"; };
+		AA7D00651B31307B002C28C3 /* hamburger@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hamburger@2x.png"; sourceTree = "<group>"; };
+		AA7D00681B3131FB002C28C3 /* HamburgerMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HamburgerMenuView.h; sourceTree = "<group>"; };
+		AA7D00691B3131FB002C28C3 /* HamburgerMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HamburgerMenuView.m; sourceTree = "<group>"; };
+		AA7D00721B313638002C28C3 /* ColourConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColourConfig.h; sourceTree = "<group>"; };
 		AA832CAD1B2BB12400D0EC81 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		AA832CAE1B2BB12400D0EC81 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		AA832CB31B2BB2D800D0EC81 /* TabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarController.h; sourceTree = "<group>"; };
@@ -171,6 +187,10 @@
 		AA832CAC1B2BB12400D0EC81 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				AA7D00641B31307B002C28C3 /* hamburger.png */,
+				AA7D00651B31307B002C28C3 /* hamburger@2x.png */,
+				AA7D005F1B312BB8002C28C3 /* logo@2x.png */,
+				AA7D005C1B31217B002C28C3 /* logo.png */,
 				AA832CB91B2BC3CF00D0EC81 /* leaderboard.png */,
 				AA832CAD1B2BB12400D0EC81 /* home.png */,
 				AA832CAE1B2BB12400D0EC81 /* profile.png */,
@@ -233,6 +253,7 @@
 				DA5B745418F239B700BB5F8E /* Controllers */,
 				DA5B73FA18F233EF00BB5F8E /* Images.xcassets */,
 				DA5B73EF18F233EF00BB5F8E /* Supporting Files */,
+				AA7D00721B313638002C28C3 /* ColourConfig.h */,
 			);
 			path = LikedOrNope;
 			sourceTree = "<group>";
@@ -299,6 +320,10 @@
 				DA5B745E18F239B700BB5F8E /* ChoosePersonView.m */,
 				AA18DCAC1B267FBA00949EAF /* InstagramLoginView.h */,
 				AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */,
+				AA7D00611B312D5F002C28C3 /* TopBarView.h */,
+				AA7D00621B312D5F002C28C3 /* TopBarView.m */,
+				AA7D00681B3131FB002C28C3 /* HamburgerMenuView.h */,
+				AA7D00691B3131FB002C28C3 /* HamburgerMenuView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -401,7 +426,11 @@
 			files = (
 				DA5B73F318F233EF00BB5F8E /* InfoPlist.strings in Resources */,
 				AA832CBA1B2BC3CF00D0EC81 /* leaderboard.png in Resources */,
+				AA7D005D1B31217B002C28C3 /* logo.png in Resources */,
 				DA5B73FB18F233EF00BB5F8E /* Images.xcassets in Resources */,
+				AA7D00601B312BB8002C28C3 /* logo@2x.png in Resources */,
+				AA7D00661B31307B002C28C3 /* hamburger.png in Resources */,
+				AA7D00671B31307B002C28C3 /* hamburger@2x.png in Resources */,
 				AA832CB01B2BB12400D0EC81 /* home.png in Resources */,
 				AA832CB11B2BB12400D0EC81 /* profile.png in Resources */,
 			);
@@ -458,7 +487,9 @@
 				AA6A845D1B2B9F83005C064B /* AppDelegate.m in Sources */,
 				AA6A84561B2B9F04005C064B /* Instagram.m in Sources */,
 				DA5B746118F239B700BB5F8E /* ImageLabelView.m in Sources */,
+				AA7D00731B313638002C28C3 /* ColourConfig.h in Sources */,
 				DA5B745F18F239B700BB5F8E /* ChoosePersonViewController.m in Sources */,
+				AA7D00631B312D5F002C28C3 /* TopBarView.m in Sources */,
 				AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */,
 				DA5B746018F239B700BB5F8E /* Person.m in Sources */,
 				AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */,
@@ -467,6 +498,7 @@
 				DA5B73F518F233EF00BB5F8E /* main.m in Sources */,
 				AA832CB81B2BBF0B00D0EC81 /* LoginViewController.m in Sources */,
 				3A9B90D01B30B08900B76901 /* ProfileViewController.m in Sources */,
+				AA7D006A1B3131FB002C28C3 /* HamburgerMenuView.m in Sources */,
 				DA5B746218F239B700BB5F8E /* ChoosePersonView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

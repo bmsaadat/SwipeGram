@@ -47,9 +47,9 @@
     }
     
     [navController pushViewController:[LoginViewController new] animated:NO];
+    [navController setEdgesForExtendedLayout:UIRectEdgeNone];
     self.window.rootViewController = navController;
-    
-    
+
     
     return YES;
 }

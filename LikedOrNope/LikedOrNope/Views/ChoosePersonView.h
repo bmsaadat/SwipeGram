@@ -29,10 +29,10 @@
 
 @interface ChoosePersonView : MDCSwipeToChooseView
 
-@property (nonatomic, strong, readonly) Person *person;
 @property (nonatomic) bool isTop;
+
 - (instancetype)initWithFrame:(CGRect)frame
-                       person:(Person *)person
+                       url:(NSString *)url
                       options:(MDCSwipeToChooseViewOptions *)options;
 
 @end

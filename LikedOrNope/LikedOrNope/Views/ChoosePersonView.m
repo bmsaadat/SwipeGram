@@ -41,13 +41,21 @@ static const CGFloat ChoosePersonViewImageLabelWidth = 42.f;
 #pragma mark - Object Lifecycle
 
 - (instancetype)initWithFrame:(CGRect)frame
-                       person:(Person *)person
+                       url:(NSString *)url
                       options:(MDCSwipeToChooseViewOptions *)options{
     self = [super initWithFrame:frame options:options];
     if (self) {
-        _person = person;
-        self.imageView.image = _person.image;
-
+        //self.imageView.image = _person.image;
+        
+        self.imageView.layer.cornerRadius = 5.f;
+        [self downloadImageWithURL:[NSURL URLWithString:url] completionBlock:^(BOOL succeeded, NSData *data) {
+            if (succeeded) {
+                UIImage *image = [UIImage imageWithData:data];
+                self.imageView.image = image;
+            }
+        }];
+        
+        
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight |
                                 UIViewAutoresizingFlexibleWidth |
                                 UIViewAutoresizingFlexibleBottomMargin;
@@ -68,6 +76,17 @@ static const CGFloat ChoosePersonViewImageLabelWidth = 42.f;
                                                             text:text];
     view.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     return view;
+}
+
+- (void)downloadImageWithURL:(NSURL *)url completionBlock:(void (^)(BOOL succeeded, NSData *data))completionBlock {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (!error) {
+            completionBlock(YES, data);
+        } else {
+            completionBlock(NO, nil);
+        }
+    }];
 }
 
 @end

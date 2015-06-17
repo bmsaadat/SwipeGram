@@ -35,6 +35,8 @@
     view2.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Home" image:[UIImage imageNamed:@"home.png"] tag:2];
     view3.tabBarItem = [[UITabBarItem alloc] initWithTitle:@"Leaderboards" image:[UIImage imageNamed:@"leaderboard.png"] tag:3];
     [self setSelectedViewController:view2];
+    [self setEdgesForExtendedLayout:UIRectEdgeNone];
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0]];
 }
 
 - (void)didReceiveMemoryWarning {

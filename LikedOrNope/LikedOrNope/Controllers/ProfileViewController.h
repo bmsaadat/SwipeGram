@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "Instagram.h"
 
-@interface ProfileViewController : UIViewController<IGRequestDelegate>
+@interface ProfileViewController : UIViewController<IGRequestDelegate, IGSessionDelegate>
 
 @end

@@ -31,11 +31,15 @@
 //static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 @interface ChoosePersonViewController ()
-@property (nonatomic, strong) NSMutableArray *people;
+@property (nonatomic, strong) NSMutableArray *imageUrls;
 @end
 
 @implementation ChoosePersonViewController
 @synthesize max_id;
+@synthesize topBar;
+@synthesize hamburgerMenu;
+@synthesize cardContainer;
+
 #pragma mark - Object Lifecycle
 
 - (instancetype)init {
@@ -43,8 +47,7 @@
     if (self) {
         // This view controller maintains a list of ChoosePersonView
         // instances to display.
-        _people = [NSMutableArray array];
-        //_people = [[self defaultPeople] mutableCopy];
+        _imageUrls = [NSMutableArray array];
     }
     return self;
 }
@@ -53,27 +56,36 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // Create container for cards to be added onto
+    cardContainer = [[UIView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:cardContainer];
+    
+    // Load top bar
+    topBar = [[TopBarView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 42)];
+    topBar.delegate = self;
+    [self.view addSubview:topBar];
+    
+    // Load hamburger menu offscreen
+    CGFloat hamburgerWidth = self.view.frame.size.width - 100;
+    hamburgerMenu = [[HamburgerMenuView alloc] initWithFrame:CGRectMake(-hamburgerWidth, 0, hamburgerWidth, self.view.frame.size.height)];
+    
+    [self.view addSubview:hamburgerMenu];
+    
     [self defaultPeople];
 }
-
-- (void)tearDownLoginView {
-    //[loginView removeFromSuperview];
-    _people = [[self defaultPeople] mutableCopy];
-}
-
-
 
 - (void)loadMainViews {
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
     self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]];
-    [self.view addSubview:self.topCardView];
+    [cardContainer addSubview:self.topCardView];
     
     // Display the second ChoosePersonView in back. This view controller uses
     // the MDCSwipeToChooseDelegate protocol methods to update the front and
     // back views after each user swipe.
     self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
-    [self.view addSubview:self.bottomCardView];
+    [cardContainer addSubview:self.bottomCardView];
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -88,15 +100,15 @@
 //}
 
 // This is called then a user swipes the view fully left or right.
-- (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
-    if (self.people.count < 3) {
+- (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {    
+    if (self.imageUrls.count < 4) {
         [self defaultPeople];
     }
-    
+    [topBar incrementScoreBy:10];
         [self.bottomCardView removeFromSuperview];
         self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
         self.bottomCardView.alpha = 0.f;
-        [self.view addSubview:self.bottomCardView];
+        [cardContainer addSubview:self.bottomCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -107,13 +119,14 @@
         [self.topCardView removeFromSuperview];
         self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]];
         self.topCardView.alpha = 0.f;
-        [self.view addSubview:self.topCardView];
+        [cardContainer addSubview:self.topCardView];
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
                          animations:^{
                              self.topCardView.alpha = 1.f;
                          } completion:nil];
+    
 }
 
 #pragma mark - Internal Methods
@@ -122,20 +135,17 @@
     // Keep track of the person currently being chosen.
     // Quick and dirty, just for the purposes of this sample app.
     _topCardView = topCardView;
-    self.currentUpPerson = topCardView.person;
 }
 
 - (void)setbottomCardView:(ChoosePersonView *)bottomCardView {
     // Keep track of the person currently being chosen.
     // Quick and dirty, just for the purposes of this sample app.
     _bottomCardView = bottomCardView;
-    self.currentDownPerson = bottomCardView.person;
 }
 
-- (NSArray *)defaultPeople {
+- (void)defaultPeople {
     AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
 
-    NSMutableArray *imageArray = [NSMutableArray array];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [params setObject:@"users/self/feed" forKey:@"method"];
     [params setObject:appDelegate.instagram.accessToken forKey:@"access_token"];
@@ -145,13 +155,10 @@
     // Make request for this users feed.
     IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
     feedRequest.delegate = self;
-    
-    
-    return imageArray;
 }
 
 - (ChoosePersonView *)popUpPersonViewWithFrame:(CGRect)frame {
-    if ([self.people count] == 0) {
+    if ([self.imageUrls count] == 0) {
         return nil;
     }
 
@@ -173,15 +180,15 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    person:self.people[0]
+                                                                    url:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = NO;
-    [self.people removeObjectAtIndex:0];
+    [self.imageUrls removeObjectAtIndex:0];
     return personView;
 }
 
 - (ChoosePersonView *)popDownPersonViewWithFrame:(CGRect)frame {
-    if ([self.people count] == 0) {
+    if ([self.imageUrls count] == 0) {
         return nil;
     }
     
@@ -203,10 +210,10 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    person:self.people[0]
+                                                                    url:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = YES;
-    [self.people removeObjectAtIndex:0];
+    [self.imageUrls removeObjectAtIndex:0];
     return personView;
 }
 
@@ -226,6 +233,35 @@
                       200.f);
 }
 
+
+#pragma mark - Top Bar Delegate
+- (void)hamburgerButtonPressed {
+    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton.frame = self.view.frame;
+    [closeButton addTarget:self action:@selector(closeHamburgerMenu:) forControlEvents:UIControlEventTouchUpInside|UIControlEventTouchDragInside];
+    [self.view insertSubview:closeButton belowSubview:hamburgerMenu];
+    
+    CGRect inViewFrame = CGRectMake(0, 0, hamburgerMenu.frame.size.width, hamburgerMenu.frame.size.height);
+    // SLide in new hamburger view
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         hamburgerMenu.frame = inViewFrame;
+                     } completion:nil];
+}
+
+- (void)closeHamburgerMenu: (UIButton *)button {
+    [button removeFromSuperview];
+    CGRect inViewFrame = CGRectMake(-hamburgerMenu.frame.size.width, 0, hamburgerMenu.frame.size.width, hamburgerMenu.frame.size.height);
+    // SLide out new hamburger view
+    [UIView animateWithDuration:0.3
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         hamburgerMenu.frame = inViewFrame;
+                     } completion:nil];
+}
 
 #pragma mark - Request Callbacks
 
@@ -258,7 +294,14 @@
  * depending on thee format of the API response.
  */
 - (void)request:(IGRequest *)request didLoad:(id)result {
-    NSMutableArray *newPeopleArray = [NSMutableArray array];
+    /*UIView *touchAbsorber = [[UIView alloc] initWithFrame:self.view.frame];
+    [self.view addSubview:touchAbsorber];
+    UIActivityIndicatorView *progressIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    progressIndicator.center = touchAbsorber.center;
+    progressIndicator.alpha = 0.0;
+    [touchAbsorber addSubview:progressIndicator];*/
+    
+    NSMutableArray *newUrlArray = [NSMutableArray array];
     
     NSDictionary *dict = (NSDictionary *)result;
     NSDictionary *pagination = [dict objectForKey:@"pagination"];
@@ -270,27 +313,18 @@
         NSDictionary *imageDict = [post objectForKey:@"images"];
         NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
         NSString *imageURL = [lowResImageDict objectForKey:@"url"];
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:imageURL]];
-        UIImage *image = [UIImage imageWithData:imageData];
-        //UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
-        //[self.view addSubview:imageView];
-        
-        Person *person = [[Person alloc] initWithName:@"Finn"
-                               image:image
-                                 age:15
-               numberOfSharedFriends:3
-             numberOfSharedInterests:2
-                      numberOfPhotos:1];
-        [newPeopleArray addObject:person];
-        
+        [newUrlArray addObject:imageURL];        
     }
     
-    [self.people addObjectsFromArray:[newPeopleArray mutableCopy]];
+    [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
     
     if (!self.topCardView && !self.bottomCardView) {
         [self loadMainViews];
     }
+    //[touchAbsorber removeFromSuperview];
 }
+
+
 
 /**
  * Called when a request returns a response.

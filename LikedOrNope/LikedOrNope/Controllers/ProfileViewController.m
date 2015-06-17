@@ -9,6 +9,10 @@
 #import "ProfileViewController.h"
 #import "UIView+Facade.h"
 #import "AppDelegate.h"
+#import "LoginViewController.h"
+
+#define buttonSizeWidth     200
+#define buttonSizeHeight    42
 
 static NSString * const kLabelFont = @"OpenSans-Semibold";
 
@@ -21,6 +25,7 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     UILabel *_nameLabel;
     UILabel *_usernameLabel;
     UIButton *_scoreButton;
+    UIButton *logoutButton;
 }
 
 @end
@@ -72,6 +77,34 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     _scoreButton.layer.borderWidth = 1;
     _scoreButton.layer.borderColor = componentColor.CGColor;
     [_scrollView addSubview:_scoreButton];
+    
+    
+    logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    logoutButton.backgroundColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
+    [logoutButton setTitle:@"Logout" forState:UIControlStateNormal];
+    logoutButton.frame = CGRectMake((_scrollView.frame.size.width - buttonSizeWidth)*0.5, (_scrollView.frame.size.height - buttonSizeHeight)*0.5, buttonSizeWidth, buttonSizeHeight);
+    [logoutButton addTarget:self action:@selector(logoutPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [logoutButton addTarget:self action:@selector(logoutTouchBegin:) forControlEvents:UIControlEventTouchDown];
+    [logoutButton addTarget:self action:@selector(logoutTouchEnded:) forControlEvents:UIControlEventTouchCancel|UIControlEventTouchUpOutside];
+
+    [_scrollView addSubview:logoutButton];
+}
+
+- (void)logoutTouchBegin:(UIButton *)button {
+    button.backgroundColor = [UIColor colorWithRed:r_colour * 0.8 green:g_colour * 0.8 blue:b_colour * 0.8 alpha:1.0];
+}
+
+- (void)logoutPressed:(UIButton *)button {
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    appDelegate.instagram.sessionDelegate = self;
+    [appDelegate.instagram logout];
+    [self logoutTouchEnded:button];
+}
+
+- (void)logoutTouchEnded:(UIButton *)button {
+    [UIView animateWithDuration:0.1 animations:^{
+        button.backgroundColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
+    }];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -82,14 +115,20 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
 
 - (void)layoutFacade {
     [_scrollView fillSuperview];
-    
     [_headerImageView anchorTopCenterFillingWidthWithLeftAndRightPadding:0 topPadding:0 height:250];
-    
     [_avatarImageView alignUnder:_headerImageView matchingCenterWithTopPadding:-50 width:100 height:100];
     [_nameLabel alignUnder:_avatarImageView centeredFillingWidthWithLeftAndRightPadding:7 topPadding:14 height:28];
     [_usernameLabel alignUnder:_nameLabel centeredFillingWidthWithLeftAndRightPadding:7 topPadding:2 height:19];
-    
     [_scoreButton alignUnder:_usernameLabel matchingCenterWithTopPadding:20 width:250 height:44];
+    [logoutButton alignUnder:_scoreButton matchingCenterWithTopPadding:20 width:250 height:44];
+}
+
+-(void)igDidLogout {
+    NSLog(@"Instagram did logout");
+    // remove the accessToken
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"accessToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.navigationController pushViewController:[LoginViewController new] animated:YES];
 }
 
 @end

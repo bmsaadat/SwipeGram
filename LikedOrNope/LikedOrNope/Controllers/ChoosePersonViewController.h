@@ -25,13 +25,18 @@
 #import <UIKit/UIKit.h>
 #import "ChoosePersonView.h"
 #import "Instagram.h"
+#import "TopBarView.h"
+#import "HamburgerMenuView.h"
 
-@interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate, IGSessionDelegate, IGRequestDelegate>
+@interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate, IGSessionDelegate, IGRequestDelegate, TopBarViewDelegate>
 
 @property (nonatomic, strong) Person *currentDownPerson;
 @property (nonatomic, strong) Person *currentUpPerson;
 @property (nonatomic, strong) ChoosePersonView *topCardView;
 @property (nonatomic, strong) ChoosePersonView *bottomCardView;
+@property (nonatomic, strong) UIView *cardContainer;
+@property (nonatomic, strong) TopBarView *topBar;
+@property (nonatomic, strong) HamburgerMenuView *hamburgerMenu;
 
 // Pagination -- specifies the next feed of images
 @property (nonatomic, strong) NSString *max_id;

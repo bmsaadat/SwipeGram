@@ -39,7 +39,7 @@
 
 - (void)tearDownLoginView {
     TabBarController *tabBarController = [[TabBarController alloc] init];
-    [self.navigationController pushViewController:tabBarController animated:YES];
+    [self.navigationController pushViewController:tabBarController animated:NO];
     [self removeFromParentViewController];
 }
 
@@ -52,7 +52,6 @@
 #pragma mark - IGSessionDelegate
 
 -(void)igDidLogin {
-    NSLog(@"Instagram did login");
     // here i can store accessToken
     AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     [[NSUserDefaults standardUserDefaults] setObject:appDelegate.instagram.accessToken forKey:@"accessToken"];
