@@ -7,6 +7,7 @@
 //
 
 #import "LeaderboardViewController.h"
+#import <Parse/Parse.h>
 
 @implementation LeaderboardViewController {
     UITableView *highScoreTable;
@@ -41,6 +42,36 @@
     [self.view addSubview:globalLeaderBoard];
     [self.view addSubview:localLeaderBoard];
 
+}
+
+- (void) viewDidAppear:(BOOL)animated{
+    PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
+    userScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+    userScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
+    userScore[@"cheatMode"] = @NO;
+    [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"Success");
+        } else {
+            NSLog(@"Error");
+        }
+    }];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
+    [query whereKey:@"playerName" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            // Do something with the found objects
+            for (PFObject *object in objects) {
+                int score = [[object objectForKey:@"score"] intValue];
+                [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
+            }
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 // number of row in the section, I assume there is only 1 row

@@ -106,17 +106,6 @@
         [self defaultPeople];
     }
     [topBar incrementScoreBy:10];
-    PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
-    userScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
-    userScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
-    userScore[@"cheatMode"] = @NO;
-    [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            NSLog(@"Success");
-        } else {
-            NSLog(@"Error");
-        }
-    }];
         [self.bottomCardView removeFromSuperview];
         self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
         self.bottomCardView.alpha = 0.f;

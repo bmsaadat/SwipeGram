@@ -73,8 +73,8 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [_scrollView addSubview:_usernameLabel];
     
     _scoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"totalScore"]];
-    [_scoreButton setTitle:totalScore forState:UIControlStateNormal];
+//    NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"totalScore"]];
+//    [_scoreButton setTitle:totalScore forState:UIControlStateNormal];
     [_scoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_scoreButton setBackgroundColor:scoreButtonColor];
     _scoreButton.layer.cornerRadius = 5;
@@ -107,23 +107,6 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     // Make request for this users feed.
     IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
     feedRequest.delegate = self;
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
-    [query whereKey:@"playerName" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            // Do something with the found objects
-            int score = 0;
-            for (PFObject *object in objects) {
-                score = score + [[object objectForKey:@"score"] intValue];
-            }
-            [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
 }
 
 -(UIImage *) getImageFromURL:(NSString *)fileURL {
@@ -133,6 +116,39 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     result = [UIImage imageWithData:data];
     
     return result;
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"totalScore"]];
+    [_scoreButton setTitle:totalScore forState:UIControlStateNormal];
+    PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
+    userScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+    userScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
+    userScore[@"cheatMode"] = @NO;
+    [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"Success");
+        } else {
+            NSLog(@"Error");
+        }
+    }];
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
+    [query whereKey:@"playerName" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            // Do something with the found objects
+            int score = 0;
+            for (PFObject *object in objects) {
+                score = [[object objectForKey:@"score"] intValue];
+            }
+            [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 - (void)logoutTouchBegin:(UIButton *)button {
