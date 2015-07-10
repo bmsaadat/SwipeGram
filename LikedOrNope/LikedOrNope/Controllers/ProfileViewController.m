@@ -10,6 +10,7 @@
 #import "UIView+Facade.h"
 #import "AppDelegate.h"
 #import "LoginViewController.h"
+#import <Parse/Parse.h>
 
 #define buttonSizeWidth     200
 #define buttonSizeHeight    42
@@ -72,7 +73,8 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [_scrollView addSubview:_usernameLabel];
     
     _scoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_scoreButton setTitle:@"193,030" forState:UIControlStateNormal];
+    NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"totalScore"]];
+    [_scoreButton setTitle:totalScore forState:UIControlStateNormal];
     [_scoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_scoreButton setBackgroundColor:scoreButtonColor];
     _scoreButton.layer.cornerRadius = 5;
@@ -105,6 +107,23 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     // Make request for this users feed.
     IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
     feedRequest.delegate = self;
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
+    [query whereKey:@"playerName" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            // Do something with the found objects
+            int score = 0;
+            for (PFObject *object in objects) {
+                score = score + [[object objectForKey:@"score"] intValue];
+            }
+            [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
+        } else {
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    }];
 }
 
 -(UIImage *) getImageFromURL:(NSString *)fileURL {

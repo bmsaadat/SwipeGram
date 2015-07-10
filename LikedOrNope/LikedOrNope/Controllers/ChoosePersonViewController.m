@@ -26,6 +26,7 @@
 #import "Person.h"
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
 
 //static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 //static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
@@ -105,6 +106,17 @@
         [self defaultPeople];
     }
     [topBar incrementScoreBy:10];
+    PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
+    userScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+    userScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
+    userScore[@"cheatMode"] = @NO;
+    [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"Success");
+        } else {
+            NSLog(@"Error");
+        }
+    }];
         [self.bottomCardView removeFromSuperview];
         self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
         self.bottomCardView.alpha = 0.f;
@@ -152,6 +164,7 @@
     if (max_id) {
         [params setObject:max_id forKey:@"max_id"];
     }
+    
     // Make request for this users feed.
     IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
     feedRequest.delegate = self;
@@ -294,12 +307,6 @@
  * depending on thee format of the API response.
  */
 - (void)request:(IGRequest *)request didLoad:(id)result {
-    /*UIView *touchAbsorber = [[UIView alloc] initWithFrame:self.view.frame];
-    [self.view addSubview:touchAbsorber];
-    UIActivityIndicatorView *progressIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    progressIndicator.center = touchAbsorber.center;
-    progressIndicator.alpha = 0.0;
-    [touchAbsorber addSubview:progressIndicator];*/
     
     NSMutableArray *newUrlArray = [NSMutableArray array];
     
@@ -309,11 +316,11 @@
     
     NSArray *data = [dict objectForKey:@"data"];
     for (NSDictionary *post in data) {
-        // Contains low/standard/high resolution images
-        NSDictionary *imageDict = [post objectForKey:@"images"];
-        NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
-        NSString *imageURL = [lowResImageDict objectForKey:@"url"];
-        [newUrlArray addObject:imageURL];        
+            // Contains low/standard/high resolution images
+            NSDictionary *imageDict = [post objectForKey:@"images"];
+            NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
+            NSString *imageURL = [lowResImageDict objectForKey:@"url"];
+            [newUrlArray addObject:imageURL];
     }
     
     [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
@@ -321,10 +328,7 @@
     if (!self.topCardView && !self.bottomCardView) {
         [self loadMainViews];
     }
-    //[touchAbsorber removeFromSuperview];
 }
-
-
 
 /**
  * Called when a request returns a response.
