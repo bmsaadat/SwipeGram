@@ -34,6 +34,7 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getUserInfo];
     [self setupSubviews];
 }
 
@@ -52,7 +53,7 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [_scrollView addSubview:_headerImageView];
     
     _avatarImageView = [UIImageView new];
-    _avatarImageView.image = [UIImage imageNamed:@"jake.jpg"];
+    _avatarImageView.image = [self getImageFromURL:[[NSUserDefaults standardUserDefaults] objectForKey:@"profile_picture"]];
     _avatarImageView.clipsToBounds = YES;
     _avatarImageView.layer.cornerRadius = 50;
     _avatarImageView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -60,13 +61,13 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [_scrollView addSubview:_avatarImageView];
     
     _nameLabel = [UILabel new];
-    _nameLabel.text = @"Drake";
+    _nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"full_Name"];
     _nameLabel.font = [UIFont boldSystemFontOfSize:25];
     _nameLabel.textAlignment = NSTextAlignmentCenter;
     [_scrollView addSubview:_nameLabel];
     
     _usernameLabel = [UILabel new];
-    _usernameLabel.text = @"_ilovefood93";
+    _usernameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
     _usernameLabel.textAlignment = NSTextAlignmentCenter;
     [_scrollView addSubview:_usernameLabel];
     
@@ -92,6 +93,27 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     logoutButton.layer.borderColor = logoutButtonColor.CGColor;
 
     [_scrollView addSubview:logoutButton];
+}
+
+- (void)getUserInfo {
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [params setObject:@"users/self/" forKey:@"method"];
+    [params setObject:appDelegate.instagram.accessToken forKey:@"access_token"];
+    
+    // Make request for this users feed.
+    IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
+    feedRequest.delegate = self;
+}
+
+-(UIImage *) getImageFromURL:(NSString *)fileURL {
+    UIImage * result;
+    
+    NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileURL]];
+    result = [UIImage imageWithData:data];
+    
+    return result;
 }
 
 - (void)logoutTouchBegin:(UIButton *)button {
@@ -133,6 +155,60 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"accessToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self.navigationController pushViewController:[LoginViewController new] animated:YES];
+}
+
+
+#pragma mark - Request Callbacks
+
+/**
+ * Called just before the request is sent to the server.
+ */
+- (void)requestLoading:(IGRequest *)request {
+    
+}
+
+/**
+ * Called when the server responds and begins to send back data.
+ */
+- (void)request:(IGRequest *)request didReceiveResponse:(NSURLResponse *)response {
+    
+}
+
+/**
+ * Called when an error prevents the request from completing successfully.
+ */
+- (void)request:(IGRequest *)request didFailWithError:(NSError *)error {
+    
+}
+
+/**
+ * Called when a request returns and its response has been parsed into
+ * an object.
+ *
+ * The resulting object may be a dictionary, an array, a string, or a number,
+ * depending on thee format of the API response.
+ */
+- (void)request:(IGRequest *)request didLoad:(id)result {
+    
+//    NSMutableArray *newUrlArray = [NSMutableArray array];
+    
+    NSDictionary *dict = (NSDictionary *)result;
+    NSDictionary *post = [dict objectForKey:@"data"];
+    NSString *userName = [post objectForKey:@"username"];
+    [[NSUserDefaults standardUserDefaults] setObject:userName forKey:@"userName"];
+    NSString *full_Name = [post objectForKey:@"full_name"];
+    [[NSUserDefaults standardUserDefaults] setObject:full_Name forKey:@"full_Name"];
+    NSString *profilepicURL = [post objectForKey:@"profile_picture"];
+    [[NSUserDefaults standardUserDefaults] setObject:profilepicURL forKey:@"profile_picture"];
+}
+
+/**
+ * Called when a request returns a response.
+ *
+ * The result object is the raw response from the server of type NSData
+ */
+- (void)request:(IGRequest *)request didLoadRawResponse:(NSData *)data {
+    
 }
 
 @end
