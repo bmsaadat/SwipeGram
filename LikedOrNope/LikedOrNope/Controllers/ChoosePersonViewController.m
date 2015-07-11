@@ -106,6 +106,7 @@
         [self defaultPeople];
     }
     [topBar incrementScoreBy:10];
+    [self checkForRewards];
         [self.bottomCardView removeFromSuperview];
         self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
         self.bottomCardView.alpha = 0.f;
@@ -128,6 +129,24 @@
                              self.topCardView.alpha = 1.f;
                          } completion:nil];
     
+}
+
+- (void) checkForRewards {
+    NSString *savedScore = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+    if (([savedScore integerValue] % 1000) == 0) {
+        [[Kiip sharedInstance] saveMoment:@"thousand_pointer" withCompletionHandler:^(KPPoptart *poptart, NSError *error) {
+            if (error) {
+                NSLog(@"something's wrong");
+                // handle with an Alert dialog.
+            }
+            if (poptart) {
+                [poptart show];
+            }
+            if (!poptart) {
+                // handle logic when there is no reward to give.
+            }
+        }];
+    }
 }
 
 #pragma mark - Internal Methods

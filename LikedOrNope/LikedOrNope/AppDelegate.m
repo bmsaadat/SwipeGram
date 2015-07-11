@@ -64,6 +64,9 @@
     
     // ...
     
+    Kiip *kiip = [[Kiip alloc] initWithAppKey:@"954f31fc4114d71e8d44140ecaaf06b0" andSecret:@"46f69dafee6ff9742131700edea4a6b3"];
+    kiip.delegate = self;
+    [Kiip setSharedInstance:kiip];
     return YES;
 }
 

@@ -11,7 +11,7 @@
 
 @implementation LeaderboardViewController {
     UITableView *highScoreTable;
-    NSArray *highScores;
+    NSMutableArray *highScores;
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
@@ -19,32 +19,35 @@
     [super viewDidLoad];
     
     UIButton *globalLeaderBoard = [UIButton buttonWithType:UIButtonTypeCustom];
-    [globalLeaderBoard setTitle:@"Global" forState:UIControlStateNormal];
+    [globalLeaderBoard setTitle:@"Leaderboard" forState:UIControlStateNormal];
     
-    globalLeaderBoard.frame = CGRectMake(5.f, 20.f, 150.f, 32.f);
+    globalLeaderBoard.frame = CGRectMake(80.f, 10.f, 150.f, 32.f);
     globalLeaderBoard.backgroundColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
-    
-    UIButton *localLeaderBoard = [UIButton buttonWithType:UIButtonTypeCustom];
-    [localLeaderBoard setTitle:@"Local" forState:UIControlStateNormal];
-    
-    localLeaderBoard.frame = CGRectMake(160.f, 20.f, 150.f, 32.f);
-    localLeaderBoard.backgroundColor = [UIColor colorWithRed:11/255.0 green:179/255.0 blue:252/255.0 alpha:1.0];
-    
-    highScoreTable = [[UITableView alloc] initWithFrame:CGRectMake(0.f, 70.f, 500.f, 500.f) style:UITableViewStylePlain];
+
+    highScoreTable = [[UITableView alloc] initWithFrame:CGRectMake(0.f, 55.f, 500.f, 500.f) style:UITableViewStylePlain];
     
     highScoreTable.delegate = self;
     highScoreTable.dataSource = self;
     
-    highScores = @[@"1. You - 193,030", @"2. Guys - 156,849", @"3. Rock - 123,595", @"4. Vote - 110,292",
-                   @"5. Us - 100,383", @"6. For - 99,202", @"7. Best - 84,393", @"8. Demo - 75,4400" ];
     // add to canvas
     [self.view addSubview:highScoreTable];
     [self.view addSubview:globalLeaderBoard];
-    [self.view addSubview:localLeaderBoard];
+    [self performSelector:@selector(retrieveFromParse)];
+}
 
+- (void) retrieveFromParse {
+    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
+    [query orderByDescending:@"score"];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (!error) {
+            highScores = [[NSMutableArray alloc] initWithArray:objects];
+        }
+        [highScoreTable reloadData];
+    }];
 }
 
 - (void) viewDidAppear:(BOOL)animated{
+    [self performSelector:@selector(retrieveFromParse)];
     PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
     userScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
     userScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
@@ -56,22 +59,6 @@
             NSLog(@"Error");
         }
     }];
-    
-    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
-    [query whereKey:@"playerName" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            // The find succeeded.
-            // Do something with the found objects
-            for (PFObject *object in objects) {
-                int score = [[object objectForKey:@"score"] intValue];
-                [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
-            }
-        } else {
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    }];
 }
 
 // number of row in the section, I assume there is only 1 row
@@ -81,12 +68,19 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *MyIdentifier = @"MyReuseIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    static NSString *CellIdentifier = @"Cell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                      reuseIdentifier:CellIdentifier];
     }
-    [cell.textLabel setText:[highScores objectAtIndex:indexPath.row]];
+    PFObject *tempObject = [highScores objectAtIndex:indexPath.row];
+    // Configure the cell to show todo item with a priority at the bottom
+    cell.textLabel.text = [[NSString stringWithFormat:@"%li. ", indexPath.row+1] stringByAppendingString:[tempObject objectForKey:@"playerName"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Score: %@",
+                                 [tempObject objectForKey:@"score"]];
+    
     return cell;
 }
 

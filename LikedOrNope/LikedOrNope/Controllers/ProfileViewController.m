@@ -119,7 +119,7 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
 }
 
 - (void) viewDidAppear:(BOOL)animated {
-    NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"totalScore"]];
+    NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"savedScore"]];
     [_scoreButton setTitle:totalScore forState:UIControlStateNormal];
     PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
     userScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
