@@ -82,7 +82,9 @@
     followButton.titleLabel.textColor = [UIColor whiteColor];
     followButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [followButton setTitle:@"Follow" forState:UIControlStateNormal];
-    
+    [followButton setTitle:@"Following" forState:UIControlStateSelected];
+    [followButton addTarget:self action:@selector(followButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+
     PFObject *tempObject = [highScores objectAtIndex:indexPath.row];
     NSString *userName = [tempObject objectForKey:@"playerName"];
     if ([userName isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]]) {
@@ -103,4 +105,8 @@
     return cell;
 }
 
+-(void)followButtonClick:(id)sender{
+    UIButton *button = (UIButton *)sender;
+    button.selected = YES;
+}
 @end
