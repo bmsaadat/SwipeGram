@@ -121,34 +121,37 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
 - (void) viewDidAppear:(BOOL)animated {
     NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"savedScore"]];
     [_scoreButton setTitle:totalScore forState:UIControlStateNormal];
-    PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
-    userScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
-    userScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
-    userScore[@"cheatMode"] = @NO;
-    [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            NSLog(@"Success");
-        } else {
-            NSLog(@"Error");
-        }
-    }];
     
     PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
-    [query whereKey:@"playerName" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]];
+    [query whereKey:@"accessToken" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (!error) {
             // The find succeeded.
             // Do something with the found objects
             int score = 0;
+            NSString *objectID;
             for (PFObject *object in objects) {
                 score = [[object objectForKey:@"score"] intValue];
+                objectID = object.objectId;
             }
+            [[NSUserDefaults standardUserDefaults] setObject:objectID forKey:@"objectID"];
             [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
         } else {
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
         }
     }];
+    
+    PFQuery *updateQuery = [PFQuery queryWithClassName:@"UserScore"];
+    // Retrieve the object by id
+    [updateQuery getObjectInBackgroundWithId:[[NSUserDefaults standardUserDefaults] objectForKey:@"objectID"]
+                                       block:^(PFObject *gameScore, NSError *error) {
+                                           // Now let's update it with some new data. In this case, only cheatMode and score
+                                           // will get sent to the cloud. playerName hasn't changed.
+                                           gameScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+                                           gameScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
+                                           [gameScore saveInBackground];
+                                       }];
 }
 
 - (void)logoutTouchBegin:(UIButton *)button {
