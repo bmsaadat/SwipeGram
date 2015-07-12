@@ -75,9 +75,28 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
                                       reuseIdentifier:CellIdentifier];
     }
+    
+    UIButton *followButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    followButton.frame = CGRectMake(230.0f, 7.0f, 80.0f, 30.0f);
+    followButton.backgroundColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
+    followButton.titleLabel.textColor = [UIColor whiteColor];
+    followButton.titleLabel.font = [UIFont systemFontOfSize:15];
+    [followButton setTitle:@"Follow" forState:UIControlStateNormal];
+    
     PFObject *tempObject = [highScores objectAtIndex:indexPath.row];
+    NSString *userName = [tempObject objectForKey:@"playerName"];
+    if ([userName isEqualToString:[[NSUserDefaults standardUserDefaults] objectForKey:@"userName"]]) {
+        cell.textLabel.text = [[NSString stringWithFormat:@"%li. ", indexPath.row+1] stringByAppendingString:@"You"];
+        cell.textLabel.textColor = [UIColor orangeColor];
+        cell.detailTextLabel.textColor = [UIColor orangeColor];
+        [followButton removeFromSuperview];
+    } else {
     // Configure the cell to show todo item with a priority at the bottom
-    cell.textLabel.text = [[NSString stringWithFormat:@"%li. ", indexPath.row+1] stringByAppendingString:[tempObject objectForKey:@"playerName"]];
+        cell.textLabel.text = [[NSString stringWithFormat:@"%li. ", indexPath.row+1] stringByAppendingString:[tempObject objectForKey:@"playerName"]];
+        cell.textLabel.textColor = [UIColor blackColor];
+        cell.detailTextLabel.textColor = [UIColor blackColor];
+        [cell.contentView addSubview:followButton];
+    }
     cell.detailTextLabel.text = [NSString stringWithFormat:@"Score: %@",
                                  [tempObject objectForKey:@"score"]];
     
