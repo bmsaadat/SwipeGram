@@ -31,7 +31,7 @@
         [self addSubview:menuLabel];
         
         // Search bar
-        UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5, 60, frame.size.width - 10, 42)];
+        searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(5, 60, frame.size.width - 10, 42)];
         [searchBar setBackgroundImage:[UIImage new]];
         searchBar.delegate = self;
         [searchBar setTranslucent:YES];
@@ -42,6 +42,7 @@
         segmentControl.tintColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
         [segmentControl insertSegmentWithTitle:@"Feed" atIndex:0 animated:NO];
         [segmentControl insertSegmentWithTitle:@"Explore" atIndex:1 animated:NO];
+        [segmentControl addTarget:self action:@selector(feedChanged:) forControlEvents:UIControlEventValueChanged];
         [segmentControl setSelectedSegmentIndex:0];
         [self addSubview:segmentControl];
         
@@ -59,7 +60,11 @@
     return self;
 }
 
-- (void)googlePressed: (UIButton*) button {
+- (void)feedChanged:(UISegmentedControl *)control {
+    [self.delegate changeFeedWithIndex:control.selectedSegmentIndex];    
+}
+
+- (void)googlePressed:(UIButton*) button {
     [self.delegate addGooglePlacesPressed];
     [self googleTouchEnded:button];
     
@@ -81,11 +86,17 @@
     }];
 }
 
-- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [searchBar resignFirstResponder];
+- (void) searchBarSearchButtonClicked:(UISearchBar *)sb {
+    [sb resignFirstResponder];
 }
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+- (void)searchBarTextDidEndEditing:(UISearchBar *)sb {
+    NSString *searchString = [sb.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    [self.delegate addSearch:searchString];   
+    [sb resignFirstResponder];
+}
+
+- (void)dismissKeyboard {
     [searchBar resignFirstResponder];
 }
 

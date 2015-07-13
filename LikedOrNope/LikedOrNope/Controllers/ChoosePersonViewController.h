@@ -48,6 +48,8 @@ typedef NS_ENUM(NSInteger, ImageSourceType) {
 @property (nonatomic, strong) CLLocationManager *locationManager;
 
 @property ImageSourceType currentDataSource;
+@property (nonatomic, strong) NSString *feedType;
+@property (nonatomic, strong) NSString *currentSearch;
 
 // Pagination -- specifies the next feed of images
 @property (nonatomic, strong) NSString *max_id;

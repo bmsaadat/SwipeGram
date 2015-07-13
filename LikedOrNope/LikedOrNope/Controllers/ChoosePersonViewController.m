@@ -45,6 +45,8 @@
 @synthesize placesClient;
 @synthesize locationManager;
 @synthesize currentDataSource;
+@synthesize feedType;
+@synthesize currentSearch;
 #pragma mark - Object Lifecycle
 
 - (instancetype)init {
@@ -63,6 +65,7 @@
     [super viewDidLoad];
     //default to instagram
     currentDataSource = instagram;
+    feedType = @"feed";
     // Create container for cards to be added onto
     cardContainer = [[UIView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:cardContainer];
@@ -190,7 +193,18 @@
     AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
 
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    [params setObject:@"users/self/feed" forKey:@"method"];
+    if (!currentSearch || [currentSearch isEqualToString:@""]) {
+        if ([feedType isEqualToString:@"feed"]) {
+            [params setObject:@"users/self/feed" forKey:@"method"];
+        } else if ([feedType isEqualToString:@"explore"]) {
+            [params setObject:@"media/popular" forKey:@"method"];
+        }
+    } else {
+        NSString *param = [NSString stringWithFormat:@"tags/%@/media/recent", currentSearch];
+        // Add the search term to the query
+        [params setObject:param forKey:@"method"];
+    }
+    
     [params setObject:appDelegate.instagram.accessToken forKey:@"access_token"];
     if (max_id) {
         [params setObject:max_id forKey:@"max_id"];
@@ -300,6 +314,7 @@
 }
 
 - (void)closeHamburgerMenu: (UIButton *)button {
+    [hamburgerMenu dismissKeyboard];
     [button removeFromSuperview];
     CGRect inViewFrame = CGRectMake(-hamburgerMenu.frame.size.width, 0, hamburgerMenu.frame.size.width, hamburgerMenu.frame.size.height);
     // SLide out new hamburger view
@@ -376,6 +391,33 @@
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     //NSLog(@"Yes");
+}
+
+- (void)changeFeedWithIndex:(NSInteger)index {
+    if (index == 0) {
+        feedType = @"feed";
+    } else if (index == 1) {
+        feedType = @"explore";
+    }
+    
+    // Refresh the feed
+    if (currentDataSource == instagram) {
+        @synchronized(self.imageUrls) {
+            [self.imageUrls removeAllObjects];
+        }
+        [self defaultPeople];
+    }
+}
+
+- (void)addSearch:(NSString *)search {
+    currentSearch = search;
+    // Refresh the feed
+    if (currentDataSource == instagram) {
+        @synchronized(self.imageUrls) {
+            [self.imageUrls removeAllObjects];
+        }
+        [self defaultPeople];
+    }
 }
 
 #pragma mark - Request Callbacks

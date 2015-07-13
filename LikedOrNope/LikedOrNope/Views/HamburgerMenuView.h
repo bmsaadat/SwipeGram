@@ -11,12 +11,16 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 @protocol HamburgerMenuViewDelegate <NSObject>
-
 - (void)addGooglePlacesPressed;
-
+- (void)changeFeedWithIndex:(NSInteger)index;
+- (void)addSearch:(NSString *)search;
 @end
 
-@interface HamburgerMenuView : UIView <UISearchBarDelegate>
+@interface HamburgerMenuView : UIView <UISearchBarDelegate> {
+    UISearchBar *searchBar;
+}
 @property (nonatomic, weak) id <HamburgerMenuViewDelegate> delegate;
+
+- (void)dismissKeyboard;
 
 @end
