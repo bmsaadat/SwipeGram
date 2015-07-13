@@ -27,8 +27,14 @@
 #import "Instagram.h"
 #import "TopBarView.h"
 #import "HamburgerMenuView.h"
+#import <GoogleMaps/GoogleMaps.h>
 
-@interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate, IGSessionDelegate, IGRequestDelegate, TopBarViewDelegate>
+typedef NS_ENUM(NSInteger, ImageSourceType) {
+    instagram,
+    google
+};
+
+@interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate, IGSessionDelegate, IGRequestDelegate, TopBarViewDelegate, HamburgerMenuViewDelegate, CLLocationManagerDelegate>
 
 @property (nonatomic, strong) Person *currentDownPerson;
 @property (nonatomic, strong) Person *currentUpPerson;
@@ -37,6 +43,11 @@
 @property (nonatomic, strong) UIView *cardContainer;
 @property (nonatomic, strong) TopBarView *topBar;
 @property (nonatomic, strong) HamburgerMenuView *hamburgerMenu;
+
+@property (nonatomic, strong) GMSPlacesClient *placesClient;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
+@property ImageSourceType currentDataSource;
 
 // Pagination -- specifies the next feed of images
 @property (nonatomic, strong) NSString *max_id;

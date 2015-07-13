@@ -37,4 +37,6 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import "ColourConfig.h"
+    #define INSTAGRAM_CLIENT_ID @"cf6e0677bd384054ac63665dc150f484"
+    #define GOOGLE_ID @"AIzaSyB-LCESuVg5kU4va0ThyGf931IUDX_UbqI"
 #endif

@@ -5,11 +5,13 @@
 //  Created by Behroz Saadat on 2015-06-17.
 //  Copyright (c) 2015 modocache. All rights reserved.
 //
-
+#import "AppDelegate.h"
 #import "HamburgerMenuView.h"
+#define buttonSizeWidth     200
+#define buttonSizeHeight    42
 
 @implementation HamburgerMenuView
-
+@synthesize delegate;
 - (id) initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         if (NSClassFromString(@"UIVisualEffectView")) {
@@ -42,8 +44,41 @@
         [segmentControl insertSegmentWithTitle:@"Explore" atIndex:1 animated:NO];
         [segmentControl setSelectedSegmentIndex:0];
         [self addSubview:segmentControl];
+        
+        UIButton *googleButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        //loginButton.backgroundColor = [UIColor colorWithRed:81/255.0 green:127/255.0 blue:164/255.0 alpha:1.0];
+        googleButton.backgroundColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
+        
+        [googleButton setTitle:@"Use Google Places" forState:UIControlStateNormal];
+        googleButton.frame = CGRectMake((frame.size.width - buttonSizeWidth)*0.5, frame.size.height - buttonSizeHeight - 80, buttonSizeWidth, buttonSizeHeight);
+        [googleButton addTarget:self action:@selector(googlePressed:) forControlEvents:UIControlEventTouchUpInside];
+        [googleButton addTarget:self action:@selector(googleTouchBegan:) forControlEvents:UIControlEventTouchDown];
+        [googleButton addTarget:self action:@selector(googleTouchEnded:) forControlEvents:UIControlEventTouchCancel|UIControlEventTouchUpOutside];
+        [self addSubview:googleButton];
     }
     return self;
+}
+
+- (void)googlePressed: (UIButton*) button {
+    [self.delegate addGooglePlacesPressed];
+    [self googleTouchEnded:button];
+    
+    // Toggle
+    if ([button.titleLabel.text isEqualToString:@"Use Google Places"]) {
+        [button setTitle:@"Use Instagram" forState:UIControlStateNormal];
+    } else {
+        [button setTitle:@"Use Google Places" forState:UIControlStateNormal];
+    }
+}
+
+- (void)googleTouchBegan:(UIButton *)button {
+    button.backgroundColor = [UIColor colorWithRed:r_colour * 0.8 green:g_colour * 0.8 blue:b_colour * 0.8 alpha:1.0];
+}
+
+- (void)googleTouchEnded:(UIButton *)button {
+    [UIView animateWithDuration:0.1 animations:^{
+        button.backgroundColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
+    }];
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {

@@ -24,9 +24,7 @@
 
 #import "AppDelegate.h"
 #import "LoginViewController.h"
-
-#define INSTAGRAM_CLIENT_ID @"cf6e0677bd384054ac63665dc150f484"
-
+#import <GoogleMaps/GoogleMaps.h>
 
 @implementation AppDelegate
 
@@ -35,6 +33,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.instagram = [[Instagram alloc] initWithClientId:INSTAGRAM_CLIENT_ID delegate:nil];
 
+    [GMSServices provideAPIKey:GOOGLE_ID];
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
