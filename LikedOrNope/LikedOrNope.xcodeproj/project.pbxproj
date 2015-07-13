@@ -21,14 +21,14 @@
 		3A0E78A91B4DD47E00FADFC1 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0E78A81B4DD47E00FADFC1 /* Accounts.framework */; };
 		3A0E78AB1B4DD48900FADFC1 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A0E78AA1B4DD48900FADFC1 /* Social.framework */; };
 		3A3CD29F1B31191500842D45 /* LeaderboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A3CD29E1B31191500842D45 /* LeaderboardViewController.m */; };
-		3A91E9511B509C260068C977 /* KiipSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A91E9501B509C260068C977 /* KiipSDK.framework */; };
-		3A91E9531B509C530068C977 /* KiipSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3A91E9521B509C530068C977 /* KiipSDKResources.bundle */; };
 		3A91E9551B509CF80068C977 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A91E9541B509CF80068C977 /* CoreTelephony.framework */; };
 		3A91E9571B509D100068C977 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A91E9561B509D100068C977 /* AdSupport.framework */; };
 		3A91E9591B509D1D0068C977 /* PassKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A91E9581B509D1D0068C977 /* PassKit.framework */; };
 		3A91E95B1B509D2C0068C977 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A91E95A1B509D2C0068C977 /* MediaPlayer.framework */; };
 		3A9B90D01B30B08900B76901 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B90CF1B30B08900B76901 /* ProfileViewController.m */; };
 		3A9B90D41B30B0B400B76901 /* UIView+Facade.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A9B90D31B30B0B400B76901 /* UIView+Facade.m */; };
+		3AB665EC1B544A7C00B67BF4 /* KiipSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AB665EB1B544A7C00B67BF4 /* KiipSDK.framework */; };
+		3AB665EE1B544A8500B67BF4 /* KiipSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3AB665ED1B544A8500B67BF4 /* KiipSDKResources.bundle */; };
 		49A483B402C049E28055919D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 374A6AE5BCA048DDAD2A8A49 /* libPods.a */; };
 		AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */; };
 		AA18DCD01B27203100949EAF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AA18DCCF1B27203100949EAF /* libz.dylib */; };
@@ -100,8 +100,6 @@
 		3A0E78AA1B4DD48900FADFC1 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		3A3CD29D1B31191500842D45 /* LeaderboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeaderboardViewController.h; sourceTree = "<group>"; };
 		3A3CD29E1B31191500842D45 /* LeaderboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeaderboardViewController.m; sourceTree = "<group>"; };
-		3A91E9501B509C260068C977 /* KiipSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KiipSDK.framework; path = "../../../../../Downloads/Kiip-iOS-SDK-v2.1.1_1/KiipSDK.framework"; sourceTree = "<group>"; };
-		3A91E9521B509C530068C977 /* KiipSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = KiipSDKResources.bundle; path = "../../../../../Downloads/Kiip-iOS-SDK-v2.1.1_1/KiipSDK.framework/Versions/A/Resources/KiipSDKResources.bundle"; sourceTree = "<group>"; };
 		3A91E9541B509CF80068C977 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		3A91E9561B509D100068C977 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		3A91E9581B509D1D0068C977 /* PassKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PassKit.framework; path = System/Library/Frameworks/PassKit.framework; sourceTree = SDKROOT; };
@@ -110,6 +108,8 @@
 		3A9B90CF1B30B08900B76901 /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		3A9B90D21B30B0B400B76901 /* UIView+Facade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Facade.h"; sourceTree = "<group>"; };
 		3A9B90D31B30B0B400B76901 /* UIView+Facade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Facade.m"; sourceTree = "<group>"; };
+		3AB665EB1B544A7C00B67BF4 /* KiipSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = KiipSDK.framework; sourceTree = "<group>"; };
+		3AB665ED1B544A8500B67BF4 /* KiipSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = KiipSDKResources.bundle; sourceTree = "<group>"; };
 		AA18DCAC1B267FBA00949EAF /* InstagramLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstagramLoginView.h; sourceTree = "<group>"; };
 		AA18DCAD1B267FBA00949EAF /* InstagramLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstagramLoginView.m; sourceTree = "<group>"; };
 		AA18DCCF1B27203100949EAF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -186,9 +186,9 @@
 				DA5B73ED18F233EF00BB5F8E /* UIKit.framework in Frameworks */,
 				DA5B73E918F233EF00BB5F8E /* Foundation.framework in Frameworks */,
 				3A0E78921B4DD2FA00FADFC1 /* Parse.framework in Frameworks */,
+				3AB665EC1B544A7C00B67BF4 /* KiipSDK.framework in Frameworks */,
 				49A483B402C049E28055919D /* libPods.a in Frameworks */,
 				3A0E78951B4DD30300FADFC1 /* Bolts.framework in Frameworks */,
-				3A91E9511B509C260068C977 /* KiipSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,12 +290,12 @@
 		DA5B73E718F233EF00BB5F8E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3AB665ED1B544A8500B67BF4 /* KiipSDKResources.bundle */,
+				3AB665EB1B544A7C00B67BF4 /* KiipSDK.framework */,
 				3A91E95A1B509D2C0068C977 /* MediaPlayer.framework */,
 				3A91E9581B509D1D0068C977 /* PassKit.framework */,
 				3A91E9561B509D100068C977 /* AdSupport.framework */,
 				3A91E9541B509CF80068C977 /* CoreTelephony.framework */,
-				3A91E9521B509C530068C977 /* KiipSDKResources.bundle */,
-				3A91E9501B509C260068C977 /* KiipSDK.framework */,
 				3A0E78AA1B4DD48900FADFC1 /* Social.framework */,
 				3A0E78A81B4DD47E00FADFC1 /* Accounts.framework */,
 				3A0E78A61B4DD40000FADFC1 /* libsqlite3.dylib */,
@@ -513,7 +513,7 @@
 				AA7D00671B31307B002C28C3 /* hamburger@2x.png in Resources */,
 				AA832CB01B2BB12400D0EC81 /* home.png in Resources */,
 				AA832CB11B2BB12400D0EC81 /* profile.png in Resources */,
-				3A91E9531B509C530068C977 /* KiipSDKResources.bundle in Resources */,
+				3AB665EE1B544A8500B67BF4 /* KiipSDKResources.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
