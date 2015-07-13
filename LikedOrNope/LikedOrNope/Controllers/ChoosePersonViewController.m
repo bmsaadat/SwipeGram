@@ -31,7 +31,9 @@
 //static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 //static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
-@interface ChoosePersonViewController ()
+@interface ChoosePersonViewController () {
+    UIButton *closeButton;
+}
 @property (nonatomic, strong) NSMutableArray *imageUrls;
 @end
 
@@ -40,7 +42,9 @@
 @synthesize topBar;
 @synthesize hamburgerMenu;
 @synthesize cardContainer;
-
+@synthesize placesClient;
+@synthesize locationManager;
+@synthesize currentDataSource;
 #pragma mark - Object Lifecycle
 
 - (instancetype)init {
@@ -57,7 +61,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    //default to instagram
+    currentDataSource = instagram;
     // Create container for cards to be added onto
     cardContainer = [[UIView alloc] initWithFrame:self.view.frame];
     [self.view addSubview:cardContainer];
@@ -70,8 +75,15 @@
     // Load hamburger menu offscreen
     CGFloat hamburgerWidth = self.view.frame.size.width - 100;
     hamburgerMenu = [[HamburgerMenuView alloc] initWithFrame:CGRectMake(-hamburgerWidth, 0, hamburgerWidth, self.view.frame.size.height)];
-    
+    hamburgerMenu.delegate = self;
     [self.view addSubview:hamburgerMenu];
+    
+    placesClient = [[GMSPlacesClient alloc] init];
+    locationManager = [[CLLocationManager alloc] init];
+    locationManager.delegate = self;
+    locationManager.distanceFilter = kCLDistanceFilterNone;
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    
     
     [self defaultPeople];
 }
@@ -103,7 +115,11 @@
 // This is called then a user swipes the view fully left or right.
 - (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {    
     if (self.imageUrls.count < 4) {
-        [self defaultPeople];
+        if (currentDataSource == instagram) {
+            [self defaultPeople];
+        } else if (currentDataSource == google) {
+            [self requestGooglePlacesImages];
+        }
     }
     [topBar incrementScoreBy:10];
     [self checkForRewards];
@@ -164,6 +180,13 @@
 }
 
 - (void)defaultPeople {
+    if (currentDataSource == google) {
+        currentDataSource = instagram;
+        @synchronized(self.imageUrls) {
+            [self.imageUrls removeAllObjects];
+        }
+    }
+    
     AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
 
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -204,7 +227,9 @@
                                                                     url:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = NO;
-    [self.imageUrls removeObjectAtIndex:0];
+    @synchronized(self.imageUrls) {
+        [self.imageUrls removeObjectAtIndex:0];
+    }
     return personView;
 }
 
@@ -234,7 +259,9 @@
                                                                     url:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = YES;
-    [self.imageUrls removeObjectAtIndex:0];
+    @synchronized(self.imageUrls) {
+        [self.imageUrls removeObjectAtIndex:0];
+    }
     return personView;
 }
 
@@ -257,7 +284,7 @@
 
 #pragma mark - Top Bar Delegate
 - (void)hamburgerButtonPressed {
-    UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
     closeButton.frame = self.view.frame;
     [closeButton addTarget:self action:@selector(closeHamburgerMenu:) forControlEvents:UIControlEventTouchUpInside|UIControlEventTouchDragInside];
     [self.view insertSubview:closeButton belowSubview:hamburgerMenu];
@@ -282,6 +309,73 @@
                      animations:^{
                          hamburgerMenu.frame = inViewFrame;
                      } completion:nil];
+}
+
+#pragma mark - Hamburger Menu Delegate
+- (void)addGooglePlacesPressed {
+    [self closeHamburgerMenu:closeButton];
+    // Toggle between instagram/google
+    if (currentDataSource == google) {
+        // Instagram request
+        [self defaultPeople];
+    } else if (currentDataSource == instagram) {
+        [self requestGooglePlacesImages];
+    }
+}
+
+- (void)requestGooglePlacesImages {
+    if (currentDataSource == instagram) {
+        currentDataSource = google;
+        @synchronized(self.imageUrls) {
+            [self.imageUrls removeAllObjects];
+        }
+    }
+    
+    [locationManager startUpdatingLocation];
+    [locationManager requestWhenInUseAuthorization];
+    [locationManager requestAlwaysAuthorization];
+    [placesClient currentPlaceWithCallback:^(GMSPlaceLikelihoodList *likelihoodList, NSError *error) {
+        if (error != nil) {
+            NSLog(@"Current Place error %@", [error localizedDescription]);
+            return;
+        }
+        
+        for (GMSPlaceLikelihood *likelihood in likelihoodList.likelihoods) {
+            GMSPlace* place = likelihood.place;
+            NSLog(@"Current Place name %@ at likelihood %g", place.name, likelihood.likelihood);
+            NSLog(@"Current Place address %@", place.formattedAddress);
+            NSLog(@"Current Place attributions %@", place.attributions);
+            NSLog(@"Current PlaceID %@", place.placeID);
+            
+            NSString *detailsRequest = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?placeid=%@&key=%@",place.placeID, GOOGLE_ID];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:detailsRequest]];
+            [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                if (!error) {
+                    NSDictionary *jsonResponse = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+                    NSDictionary *result = [jsonResponse objectForKey:@"result"];
+                    NSArray *photos = [result objectForKey:@"photos"];
+                    for (NSDictionary *photoData in photos) {
+                        NSString *photoReference = [photoData objectForKey:@"photo_reference"];
+                        NSString *photoURL = [NSString stringWithFormat:
+                                              @"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%@&key=%@", photoReference, GOOGLE_ID];
+                        // Add it to the queue
+                        @synchronized(self.imageUrls) {
+                            [self.imageUrls addObject:photoURL];
+                        }
+                    }
+                    
+                    
+                } else {
+                    
+                }
+            }];
+        }
+    }];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    //NSLog(@"Yes");
 }
 
 #pragma mark - Request Callbacks
@@ -315,7 +409,6 @@
  * depending on thee format of the API response.
  */
 - (void)request:(IGRequest *)request didLoad:(id)result {
-    
     NSMutableArray *newUrlArray = [NSMutableArray array];
     
     NSDictionary *dict = (NSDictionary *)result;
@@ -330,9 +423,9 @@
             NSString *imageURL = [lowResImageDict objectForKey:@"url"];
             [newUrlArray addObject:imageURL];
     }
-    
-    [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
-    
+    @synchronized(self.imageUrls) {
+        [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
+    }
     if (!self.topCardView && !self.bottomCardView) {
         [self loadMainViews];
     }

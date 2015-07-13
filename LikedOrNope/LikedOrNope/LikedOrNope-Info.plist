@@ -33,6 +33,10 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Retrieve relevant places around you</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Retrieve relevant places around you</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import <MobileCoreServices/MobileCoreServices.h>
+
+@protocol HamburgerMenuViewDelegate <NSObject>
+
+- (void)addGooglePlacesPressed;
+
+@end
 
 @interface HamburgerMenuView : UIView <UISearchBarDelegate>
+@property (nonatomic, weak) id <HamburgerMenuViewDelegate> delegate;
 
 @end
