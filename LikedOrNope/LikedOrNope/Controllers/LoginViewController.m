@@ -59,7 +59,7 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
-    userScore[@"score"] = @"0";
+    userScore[@"score"] = [NSNumber numberWithInteger:0];
     userScore[@"accessToken"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"];
     userScore[@"playerName"] = @"nil";
     userScore[@"cheatMode"] = @NO;

@@ -148,7 +148,8 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
                                        block:^(PFObject *gameScore, NSError *error) {
                                            // Now let's update it with some new data. In this case, only cheatMode and score
                                            // will get sent to the cloud. playerName hasn't changed.
-                                           gameScore[@"score"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+                                           NSInteger score = [[[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"] integerValue];
+                                           gameScore[@"score"] = [NSNumber numberWithInteger:score];
                                            gameScore[@"playerName"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
                                            [gameScore saveInBackground];
                                        }];
