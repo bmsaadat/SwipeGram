@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import "TabBarController.h"
+#import <Parse/Parse.h>
 
 @interface LoginViewController ()
 
@@ -56,6 +57,20 @@
     AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
     [[NSUserDefaults standardUserDefaults] setObject:appDelegate.instagram.accessToken forKey:@"accessToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
+    userScore[@"score"] = @"0";
+    userScore[@"accessToken"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"];
+    userScore[@"playerName"] = @"nil";
+    userScore[@"cheatMode"] = @NO;
+    [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"Success");
+        } else {
+            NSLog(@"Error");
+        }
+    }];
+    
     [self tearDownLoginView];
 }
 

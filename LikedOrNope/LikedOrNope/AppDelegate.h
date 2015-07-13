@@ -24,8 +24,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Instagram.h"
+#import <KiipSDK/KiipSDK.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, KiipDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) Instagram *instagram;

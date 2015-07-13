@@ -25,6 +25,7 @@
 #import "AppDelegate.h"
 #import "LoginViewController.h"
 #import <GoogleMaps/GoogleMaps.h>
+#import <Parse/Parse.h>
 
 @implementation AppDelegate
 
@@ -49,8 +50,23 @@
     [navController pushViewController:[LoginViewController new] animated:NO];
     [navController setEdgesForExtendedLayout:UIRectEdgeNone];
     self.window.rootViewController = navController;
-
     
+    // [Optional] Power your app with Local Datastore. For more info, go to
+    // https://parse.com/docs/ios_guide#localdatastore/iOS
+    [Parse enableLocalDatastore];
+    
+    // Initialize Parse.
+    [Parse setApplicationId:@"aKHr5kUMc4jV0Pj48NAokXxA4djuSPFI19QWnGId"
+                  clientKey:@"rPheafbEuOIHeL6bgBe2A0Lznk5m9oOoY30tBoEh"];
+    
+    // [Optional] Track statistics around application opens.
+    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+    
+    // ...
+    
+    Kiip *kiip = [[Kiip alloc] initWithAppKey:@"954f31fc4114d71e8d44140ecaaf06b0" andSecret:@"46f69dafee6ff9742131700edea4a6b3"];
+    kiip.delegate = self;
+    [Kiip setSharedInstance:kiip];
     return YES;
 }
 
@@ -63,6 +79,5 @@
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     return [self.instagram handleOpenURL:url];
 }
-
 
 @end

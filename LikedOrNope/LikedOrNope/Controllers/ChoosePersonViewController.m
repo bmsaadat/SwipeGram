@@ -26,6 +26,7 @@
 #import "Person.h"
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import "AppDelegate.h"
+#import <Parse/Parse.h>
 
 //static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 //static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
@@ -121,6 +122,7 @@
         }
     }
     [topBar incrementScoreBy:10];
+    [self checkForRewards];
         [self.bottomCardView removeFromSuperview];
         self.bottomCardView = [self popUpPersonViewWithFrame:[self bottomCardViewFrame]];
         self.bottomCardView.alpha = 0.f;
@@ -143,6 +145,24 @@
                              self.topCardView.alpha = 1.f;
                          } completion:nil];
     
+}
+
+- (void) checkForRewards {
+    NSString *savedScore = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+    if (([savedScore integerValue] % 1000) == 0) {
+        [[Kiip sharedInstance] saveMoment:@"thousand_pointer" withCompletionHandler:^(KPPoptart *poptart, NSError *error) {
+            if (error) {
+                NSLog(@"something's wrong");
+                // handle with an Alert dialog.
+            }
+            if (poptart) {
+                [poptart show];
+            }
+            if (!poptart) {
+                // handle logic when there is no reward to give.
+            }
+        }];
+    }
 }
 
 #pragma mark - Internal Methods
@@ -175,6 +195,7 @@
     if (max_id) {
         [params setObject:max_id forKey:@"max_id"];
     }
+    
     // Make request for this users feed.
     IGRequest *feedRequest = [appDelegate.instagram requestWithParams:params delegate:nil];
     feedRequest.delegate = self;
@@ -396,11 +417,11 @@
     
     NSArray *data = [dict objectForKey:@"data"];
     for (NSDictionary *post in data) {
-        // Contains low/standard/high resolution images
-        NSDictionary *imageDict = [post objectForKey:@"images"];
-        NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
-        NSString *imageURL = [lowResImageDict objectForKey:@"url"];
-        [newUrlArray addObject:imageURL];        
+            // Contains low/standard/high resolution images
+            NSDictionary *imageDict = [post objectForKey:@"images"];
+            NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
+            NSString *imageURL = [lowResImageDict objectForKey:@"url"];
+            [newUrlArray addObject:imageURL];
     }
     @synchronized(self.imageUrls) {
         [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
@@ -409,8 +430,6 @@
         [self loadMainViews];
     }
 }
-
-
 
 /**
  * Called when a request returns a response.
