@@ -33,8 +33,11 @@
 
 @interface ChoosePersonViewController () {
     UIButton *closeButton;
+    int index;
+    int swipeCount;
 }
 @property (nonatomic, strong) NSMutableArray *imageUrls;
+@property (nonatomic, strong) NSMutableDictionary *allTags;
 @end
 
 @implementation ChoosePersonViewController
@@ -47,6 +50,8 @@
 @synthesize currentDataSource;
 @synthesize feedType;
 @synthesize currentSearch;
+@synthesize imageUrls;
+@synthesize allTags;
 #pragma mark - Object Lifecycle
 
 - (instancetype)init {
@@ -54,7 +59,9 @@
     if (self) {
         // This view controller maintains a list of ChoosePersonView
         // instances to display.
-        _imageUrls = [NSMutableArray array];
+        self.imageUrls = [NSMutableArray array];
+        self.allTags = [NSMutableDictionary dictionary];
+        swipeCount = 0;
     }
     return self;
 }
@@ -63,6 +70,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   
     //default to instagram
     currentDataSource = instagram;
     feedType = @"feed";
@@ -92,6 +100,7 @@
 }
 
 - (void)loadMainViews {
+    [self generateRandomIndex];
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
     self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]];
@@ -124,6 +133,9 @@
             [self requestGooglePlacesImages];
         }
     }
+    
+    [self generateRandomIndex];
+    
     [topBar incrementScoreBy:10];
     [self checkForRewards];
         [self.bottomCardView removeFromSuperview];
@@ -238,11 +250,11 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    url:self.imageUrls[0]
+                                                                    url:self.imageUrls[index]
                                                                    options:options];
     personView.isTop = NO;
     @synchronized(self.imageUrls) {
-        [self.imageUrls removeObjectAtIndex:0];
+        [self.imageUrls removeObjectAtIndex:index];
     }
     return personView;
 }
@@ -270,11 +282,11 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    url:self.imageUrls[0]
+                                                                    url:self.imageUrls[index]
                                                                    options:options];
     personView.isTop = YES;
     @synchronized(self.imageUrls) {
-        [self.imageUrls removeObjectAtIndex:0];
+        [self.imageUrls removeObjectAtIndex:index];
     }
     return personView;
 }
@@ -393,10 +405,10 @@
     //NSLog(@"Yes");
 }
 
-- (void)changeFeedWithIndex:(NSInteger)index {
-    if (index == 0) {
+- (void)changeFeedWithIndex:(NSInteger)idx {
+    if (idx == 0) {
         feedType = @"feed";
-    } else if (index == 1) {
+    } else if (idx == 1) {
         feedType = @"explore";
     }
     
@@ -459,20 +471,103 @@
     
     NSArray *data = [dict objectForKey:@"data"];
     for (NSDictionary *post in data) {
-            // Contains low/standard/high resolution images
-            NSDictionary *imageDict = [post objectForKey:@"images"];
-            NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
-            NSString *imageURL = [lowResImageDict objectForKey:@"url"];
-            [newUrlArray addObject:imageURL];
+        
+        
+        NSMutableArray *tags = [post objectForKey:@"tags"];
+        // Contains low/standard/high resolution images
+        NSDictionary *imageDict = [post objectForKey:@"images"];
+        NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
+        NSString *imageURL = [lowResImageDict objectForKey:@"url"];
+        [self addToAllTags:tags imageURL:imageURL];
+        [newUrlArray addObject:imageURL];
+        
     }
-    @synchronized(self.imageUrls) {
-        [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
-    }
+    [self addToDisplayImages];
+    /*@synchronized(self.imageUrls) {
+     [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
+     }*/
     if (!self.topCardView && !self.bottomCardView) {
         [self loadMainViews];
     }
 }
 
+- (void)addToAllTags:(NSMutableArray *)tags imageURL:(NSString *)url{
+    
+    
+    for(NSString *tag in tags)
+    {
+        //Check if tag exists, if not, create a list for the tag and add it to the dictionary
+        if ([self.allTags objectForKey:tag])
+        {
+            NSMutableSet *newArray = [self.allTags objectForKey:tag];
+            [newArray addObject:url];
+            
+        } else
+        {
+            NSMutableSet *newArray = [NSMutableSet set];
+            [newArray addObject:url];
+            [self.allTags setObject:newArray forKey:tag];
+        }
+    }
+}
+
+- (void) addToDisplayImages{
+    
+    for (NSString *key in self.allTags)
+    {
+        NSMutableSet *set = [self.allTags objectForKey:key];
+        while ([set count] > 1)
+        {
+            NSString *url = [set anyObject];
+            [self.imageUrls addObject:url];
+            [set removeObject:url];
+            url = [set anyObject];
+            [self.imageUrls addObject:url];
+            [set removeObject:url];
+        }
+    }
+    
+    if (self.imageUrls.count < 2) {
+        [self defaultPeople];
+    }
+}
+
+
+/*
+-(void)dictionary:(NSArray *) data
+{
+    NSDictionary newData;
+    for(NSDictionary *d in data)
+    {
+        id objects = [d objectForKey:@"tags"];
+        if(objects != nil)
+        {
+            for(id object in objects)
+            {
+                [newD]
+            }
+        }
+    }
+}
+*/
+
+-(NSMutableArray*)nCombinations:(NSArray *) data
+{
+    
+    NSMutableArray* newData = [[NSMutableArray alloc]init];
+    int index=0;
+    int count = data.count;
+    for(int i=0; i < count; i++)
+    {
+        for(int j=i+1; j < count; j++)
+        {
+            [newData insertObject:data[i] atIndex:index];
+            [newData insertObject:data[j] atIndex:index+1];
+            index+=2;
+        }
+    }
+    return newData;
+}
 /**
  * Called when a request returns a response.
  *
@@ -480,6 +575,15 @@
  */
 - (void)request:(IGRequest *)request didLoadRawResponse:(NSData *)data {
     
+}
+
+- (void) generateRandomIndex{
+    //TODO: add edge cases
+    index = arc4random_uniform(self.imageUrls.count - 1);
+    if (index%2 != 0)
+    {
+        index++;
+    }
 }
 
 @end

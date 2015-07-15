@@ -49,7 +49,7 @@ static const CGFloat ChoosePersonViewImageLabelWidth = 42.f;
         
         self.imageView.layer.cornerRadius = 5.f;
         [self downloadImageWithURL:[NSURL URLWithString:url] completionBlock:^(BOOL succeeded, NSData *data) {
-            if (succeeded) {                
+            if (succeeded) {
                 UIImage *image = [UIImage imageWithData:data];
                 self.imageView.image = image;
             }
