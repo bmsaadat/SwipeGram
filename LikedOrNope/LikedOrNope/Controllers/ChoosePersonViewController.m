@@ -27,6 +27,7 @@
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "Post.h"
 
 //static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 //static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
@@ -238,7 +239,7 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    url:self.imageUrls[0]
+                                                                    post:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = NO;
     @synchronized(self.imageUrls) {
@@ -270,7 +271,7 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    url:self.imageUrls[0]
+                                                                    post:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = YES;
     @synchronized(self.imageUrls) {
@@ -373,9 +374,14 @@
                         NSString *photoReference = [photoData objectForKey:@"photo_reference"];
                         NSString *photoURL = [NSString stringWithFormat:
                                               @"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%@&key=%@", photoReference, GOOGLE_ID];
+                        
+                        Post *post = [[Post alloc] init];
+                        post.url = photoURL;
+                        post.postID = photoReference;
+                        post.user = @"Google";
                         // Add it to the queue
                         @synchronized(self.imageUrls) {
-                            [self.imageUrls addObject:photoURL];
+                            [self.imageUrls addObject:post];
                         }
                     }
                     
@@ -458,12 +464,18 @@
     self.max_id = [pagination objectForKey:@"next_max_id"];
     
     NSArray *data = [dict objectForKey:@"data"];
-    for (NSDictionary *post in data) {
-            // Contains low/standard/high resolution images
-            NSDictionary *imageDict = [post objectForKey:@"images"];
-            NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
-            NSString *imageURL = [lowResImageDict objectForKey:@"url"];
-            [newUrlArray addObject:imageURL];
+    for (NSDictionary *postDict in data) {
+        // Contains low/standard/high resolution images
+        NSDictionary *imageDict = [postDict objectForKey:@"images"];
+        NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
+        NSString *imageURL = [lowResImageDict objectForKey:@"url"];
+        
+        Post *post = [[Post alloc] init];
+        post.url = imageURL;
+        post.user = [[postDict objectForKey:@"user"] objectForKey:@"username"];
+        post.postID = [postDict objectForKey:@"id"];
+        
+        [newUrlArray addObject:post];
     }
     @synchronized(self.imageUrls) {
         [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
