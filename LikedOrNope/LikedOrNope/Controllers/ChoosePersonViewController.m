@@ -134,7 +134,7 @@
             [self requestGooglePlacesImages];
         }
     }
-    
+    [self assignPointsToOwner:view];
     [self generateRandomIndex];
     
     [topBar incrementScoreBy:10];
@@ -161,6 +161,50 @@
                              self.topCardView.alpha = 1.f;
                          } completion:nil];
     
+}
+
+- (void) assignPointsToOwner:(UIView *) view {
+    Post *post = ((ChoosePersonView *)view).post;
+    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
+    [query whereKey:@"playerName" equalTo: post.user];
+    if ([query getFirstObject]) {
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                NSString *objectID;
+                for (PFObject *object in objects) {
+                    objectID = object.objectId;
+                }
+                [[NSUserDefaults standardUserDefaults] setObject:objectID forKey:@"picOwnerObjectID"];
+            } else {
+                // Log details of the failure
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+        PFQuery *updateQuery = [PFQuery queryWithClassName:@"UserScore"];
+        // Retrieve the object by id
+        [updateQuery getObjectInBackgroundWithId:[[NSUserDefaults standardUserDefaults] objectForKey:@"picOwnerObjectID"]
+                                           block:^(PFObject *gameScore, NSError *error) {
+                                               // Now let's update it with some new data. In this case, only cheatMode and score
+                                               // will get sent to the cloud. playerName hasn't changed.
+                                               [gameScore incrementKey:@"score" byAmount:[NSNumber numberWithInt:500]];
+                                               [gameScore saveInBackground];
+                                           }];
+    }
+    else {
+        PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
+        userScore[@"score"] = [NSNumber numberWithInteger:0];
+        userScore[@"playerName"] = post.user;
+        userScore[@"cheatMode"] = @NO;
+        [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSLog(@"Success");
+            } else {
+                NSLog(@"Error");
+            }
+        }];
+        [userScore incrementKey:@"score" byAmount:[NSNumber numberWithInt:1000]];
+        [userScore saveInBackground];
+    }
 }
 
 - (void) checkForRewards {

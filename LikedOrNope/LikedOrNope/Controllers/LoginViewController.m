@@ -58,18 +58,41 @@
     [[NSUserDefaults standardUserDefaults] setObject:appDelegate.instagram.accessToken forKey:@"accessToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
-    userScore[@"score"] = [NSNumber numberWithInteger:0];
-    userScore[@"accessToken"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"];
-    userScore[@"playerName"] = @"nil";
-    userScore[@"cheatMode"] = @NO;
-    [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (succeeded) {
-            NSLog(@"Success");
-        } else {
-            NSLog(@"Error");
-        }
-    }];
+    PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
+    [query whereKey:@"accessToken" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"]];
+    if ([query getFirstObject]) {
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                // The find succeeded.
+                // Do something with the found objects
+                int score = 0;
+                NSString *objectID;
+                for (PFObject *object in objects) {
+                    score = [[object objectForKey:@"score"] intValue];
+                    objectID = object.objectId;
+                }
+                [[NSUserDefaults standardUserDefaults] setObject:objectID forKey:@"objectID"];
+                [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"savedScore"];
+            } else {
+                // Log details of the failure
+                NSLog(@"Error: %@ %@", error, [error userInfo]);
+            }
+        }];
+    }
+    else {
+        PFObject *userScore = [PFObject objectWithClassName:@"UserScore"];
+        userScore[@"score"] = [NSNumber numberWithInteger:0];
+        userScore[@"accessToken"] = [[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"];
+        userScore[@"playerName"] = @"nil";
+        userScore[@"cheatMode"] = @NO;
+        [userScore saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                NSLog(@"Success");
+            } else {
+                NSLog(@"Error");
+            }
+        }];
+    }
     
     [self tearDownLoginView];
 }
