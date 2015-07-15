@@ -186,7 +186,7 @@
                                            block:^(PFObject *gameScore, NSError *error) {
                                                // Now let's update it with some new data. In this case, only cheatMode and score
                                                // will get sent to the cloud. playerName hasn't changed.
-                                               [gameScore incrementKey:@"score" byAmount:[NSNumber numberWithInt:1000]];
+                                               [gameScore incrementKey:@"score" byAmount:[NSNumber numberWithInt:500]];
                                                [gameScore saveInBackground];
                                            }];
     }

@@ -72,7 +72,6 @@
                     objectID = object.objectId;
                 }
                 [[NSUserDefaults standardUserDefaults] setObject:objectID forKey:@"objectID"];
-                [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
                 [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"savedScore"];
             } else {
                 // Log details of the failure

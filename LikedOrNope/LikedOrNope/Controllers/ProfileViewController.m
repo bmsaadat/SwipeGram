@@ -73,8 +73,6 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [_scrollView addSubview:_usernameLabel];
     
     _scoreButton = [UIButton buttonWithType:UIButtonTypeCustom];
-//    NSString *totalScore = [NSString stringWithFormat:@"%ld", (long)[[NSUserDefaults standardUserDefaults] integerForKey:@"totalScore"]];
-//    [_scoreButton setTitle:totalScore forState:UIControlStateNormal];
     [_scoreButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_scoreButton setBackgroundColor:scoreButtonColor];
     _scoreButton.layer.cornerRadius = 5;
@@ -135,7 +133,6 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
                 objectID = object.objectId;
             }
             [[NSUserDefaults standardUserDefaults] setObject:objectID forKey:@"objectID"];
-            [[NSUserDefaults standardUserDefaults] setInteger:score forKey:@"totalScore"];
         } else {
             // Log details of the failure
             NSLog(@"Error: %@ %@", error, [error userInfo]);
