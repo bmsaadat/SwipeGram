@@ -537,15 +537,6 @@
             [self.imageUrls addObject:secondPost];
             [set removeObject:secondPost];
             
-            if ([firstPost isEqual:secondPost]) {
-                NSLog(@"What...");
-            }
-            
-            if ([firstPost.postID isEqualToString:secondPost.postID]) {
-                NSLog(@"...");
-            }
-            
-            NSLog(@"First: %@, Second: %@", firstPost.postID, secondPost.postID );
          }
     }
     
