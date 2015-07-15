@@ -47,8 +47,8 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [self.view addSubview:_scrollView];
     
     _headerImageView = [UIImageView new];
-    _headerImageView.image = [UIImage imageNamed:@"foodie.png"];
-    _headerImageView.contentMode = UIViewContentModeScaleAspectFill;
+    _headerImageView.image = [UIImage imageNamed:@"logo.png"];
+    _headerImageView.contentMode = UIViewContentModeTop;
     _headerImageView.clipsToBounds = YES;
     _headerImageView.userInteractionEnabled = YES;
     [_scrollView addSubview:_headerImageView];
