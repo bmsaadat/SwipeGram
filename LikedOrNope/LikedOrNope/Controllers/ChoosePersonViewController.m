@@ -27,6 +27,7 @@
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import "AppDelegate.h"
 #import <Parse/Parse.h>
+#import "Post.h"
 
 //static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 //static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
@@ -250,11 +251,11 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    url:self.imageUrls[index]
+                                                                    post:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = NO;
     @synchronized(self.imageUrls) {
-        [self.imageUrls removeObjectAtIndex:index];
+        [self.imageUrls removeObjectAtIndex:0];
     }
     return personView;
 }
@@ -282,11 +283,11 @@
     // Create a personView with the top person in the people array, then pop
     // that person off the stack.
     ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
-                                                                    url:self.imageUrls[index]
+                                                                    post:self.imageUrls[0]
                                                                    options:options];
     personView.isTop = YES;
     @synchronized(self.imageUrls) {
-        [self.imageUrls removeObjectAtIndex:index];
+        [self.imageUrls removeObjectAtIndex:0];
     }
     return personView;
 }
@@ -385,9 +386,14 @@
                         NSString *photoReference = [photoData objectForKey:@"photo_reference"];
                         NSString *photoURL = [NSString stringWithFormat:
                                               @"https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=%@&key=%@", photoReference, GOOGLE_ID];
+                        
+                        Post *post = [[Post alloc] init];
+                        post.url = photoURL;
+                        post.postID = photoReference;
+                        post.user = @"Google";
                         // Add it to the queue
                         @synchronized(self.imageUrls) {
-                            [self.imageUrls addObject:photoURL];
+                            [self.imageUrls addObject:post];
                         }
                     }
                     
@@ -470,28 +476,34 @@
     self.max_id = [pagination objectForKey:@"next_max_id"];
     
     NSArray *data = [dict objectForKey:@"data"];
-    for (NSDictionary *post in data) {
-        
-        
-        NSMutableArray *tags = [post objectForKey:@"tags"];
+    for (NSDictionary *postDict in data) {
+        NSMutableArray *tags = [postDict objectForKey:@"tags"];
         // Contains low/standard/high resolution images
-        NSDictionary *imageDict = [post objectForKey:@"images"];
+        NSDictionary *imageDict = [postDict objectForKey:@"images"];
         NSDictionary *lowResImageDict = [imageDict objectForKey:@"low_resolution"];
         NSString *imageURL = [lowResImageDict objectForKey:@"url"];
-        [self addToAllTags:tags imageURL:imageURL];
-        [newUrlArray addObject:imageURL];
         
+        Post *post = [[Post alloc] init];
+        post.url = imageURL;
+        post.user = [[postDict objectForKey:@"user"] objectForKey:@"username"];
+        NSString *fullID = [postDict objectForKey:@"id"];
+        NSArray *splitArr = [fullID componentsSeparatedByString:@"_"];
+        if (splitArr.count > 1) {
+            post.postID = splitArr[1];
+        } else {
+            post.postID = fullID;
+        }
+        [self addToAllTags:tags post:post];
+
+        [newUrlArray addObject:post];
     }
     [self addToDisplayImages];
-    /*@synchronized(self.imageUrls) {
-     [self.imageUrls addObjectsFromArray:[newUrlArray mutableCopy]];
-     }*/
     if (!self.topCardView && !self.bottomCardView) {
         [self loadMainViews];
     }
 }
 
-- (void)addToAllTags:(NSMutableArray *)tags imageURL:(NSString *)url{
+- (void)addToAllTags:(NSMutableArray *)tags post:(Post *)post{
     
     
     for(NSString *tag in tags)
@@ -500,12 +512,12 @@
         if ([self.allTags objectForKey:tag])
         {
             NSMutableSet *newArray = [self.allTags objectForKey:tag];
-            [newArray addObject:url];
+            [newArray addObject:post];
             
         } else
         {
             NSMutableSet *newArray = [NSMutableSet set];
-            [newArray addObject:url];
+            [newArray addObject:post];
             [self.allTags setObject:newArray forKey:tag];
         }
     }
@@ -518,13 +530,23 @@
         NSMutableSet *set = [self.allTags objectForKey:key];
         while ([set count] > 1)
         {
-            NSString *url = [set anyObject];
-            [self.imageUrls addObject:url];
-            [set removeObject:url];
-            url = [set anyObject];
-            [self.imageUrls addObject:url];
-            [set removeObject:url];
-        }
+            Post *firstPost = [set anyObject];
+            [self.imageUrls addObject:firstPost];
+            [set removeObject:firstPost];
+            Post *secondPost = [set anyObject];
+            [self.imageUrls addObject:secondPost];
+            [set removeObject:secondPost];
+            
+            if ([firstPost isEqual:secondPost]) {
+                NSLog(@"What...");
+            }
+            
+            if ([firstPost.postID isEqualToString:secondPost.postID]) {
+                NSLog(@"...");
+            }
+            
+            NSLog(@"First: %@, Second: %@", firstPost.postID, secondPost.postID );
+         }
     }
     
     if (self.imageUrls.count < 2) {

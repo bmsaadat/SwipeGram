@@ -36,8 +36,6 @@ typedef NS_ENUM(NSInteger, ImageSourceType) {
 
 @interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate, IGSessionDelegate, IGRequestDelegate, TopBarViewDelegate, HamburgerMenuViewDelegate, CLLocationManagerDelegate>
 
-@property (nonatomic, strong) Person *currentDownPerson;
-@property (nonatomic, strong) Person *currentUpPerson;
 @property (nonatomic, strong) ChoosePersonView *topCardView;
 @property (nonatomic, strong) ChoosePersonView *bottomCardView;
 @property (nonatomic, strong) UIView *cardContainer;

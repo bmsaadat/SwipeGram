@@ -47,6 +47,9 @@
 		AA832CB51B2BB2D800D0EC81 /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA832CB41B2BB2D800D0EC81 /* TabBarController.m */; };
 		AA832CB81B2BBF0B00D0EC81 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AA832CB71B2BBF0B00D0EC81 /* LoginViewController.m */; };
 		AA832CBA1B2BC3CF00D0EC81 /* leaderboard.png in Resources */ = {isa = PBXBuildFile; fileRef = AA832CB91B2BC3CF00D0EC81 /* leaderboard.png */; };
+		AAD5393F1B560086008D8D55 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD5393E1B560086008D8D55 /* Post.m */; };
+		AAD539471B56095E008D8D55 /* WYPopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD539441B56095E008D8D55 /* WYPopoverController.m */; };
+		AAD539481B56095E008D8D55 /* WYStoryboardPopoverSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD539461B56095E008D8D55 /* WYStoryboardPopoverSegue.m */; };
 		DA5B73E918F233EF00BB5F8E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73E818F233EF00BB5F8E /* Foundation.framework */; };
 		DA5B73EB18F233EF00BB5F8E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */; };
 		DA5B73ED18F233EF00BB5F8E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5B73EC18F233EF00BB5F8E /* UIKit.framework */; };
@@ -135,6 +138,12 @@
 		AA832CB61B2BBF0B00D0EC81 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		AA832CB71B2BBF0B00D0EC81 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		AA832CB91B2BC3CF00D0EC81 /* leaderboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leaderboard.png; sourceTree = "<group>"; };
+		AAD5393D1B560086008D8D55 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
+		AAD5393E1B560086008D8D55 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
+		AAD539431B56095E008D8D55 /* WYPopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYPopoverController.h; sourceTree = "<group>"; };
+		AAD539441B56095E008D8D55 /* WYPopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYPopoverController.m; sourceTree = "<group>"; };
+		AAD539451B56095E008D8D55 /* WYStoryboardPopoverSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WYStoryboardPopoverSegue.h; sourceTree = "<group>"; };
+		AAD539461B56095E008D8D55 /* WYStoryboardPopoverSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WYStoryboardPopoverSegue.m; sourceTree = "<group>"; };
 		DA5B73E518F233EF00BB5F8E /* LikedOrNope.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikedOrNope.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5B73E818F233EF00BB5F8E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DA5B73EA18F233EF00BB5F8E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -257,6 +266,17 @@
 			path = Assets;
 			sourceTree = "<group>";
 		};
+		AAD539421B56095E008D8D55 /* WYPopoverController */ = {
+			isa = PBXGroup;
+			children = (
+				AAD539431B56095E008D8D55 /* WYPopoverController.h */,
+				AAD539441B56095E008D8D55 /* WYPopoverController.m */,
+				AAD539451B56095E008D8D55 /* WYStoryboardPopoverSegue.h */,
+				AAD539461B56095E008D8D55 /* WYStoryboardPopoverSegue.m */,
+			);
+			path = WYPopoverController;
+			sourceTree = "<group>";
+		};
 		C34114B31FABDB7796A09742 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +310,7 @@
 		DA5B73E718F233EF00BB5F8E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AAD539421B56095E008D8D55 /* WYPopoverController */,
 				3AB665ED1B544A8500B67BF4 /* KiipSDKResources.bundle */,
 				3AB665EB1B544A7C00B67BF4 /* KiipSDK.framework */,
 				3A91E95A1B509D2C0068C977 /* MediaPlayer.framework */,
@@ -387,6 +408,8 @@
 			children = (
 				DA5B745818F239B700BB5F8E /* Person.h */,
 				DA5B745918F239B700BB5F8E /* Person.m */,
+				AAD5393D1B560086008D8D55 /* Post.h */,
+				AAD5393E1B560086008D8D55 /* Post.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -571,6 +594,7 @@
 				AA7D00731B313638002C28C3 /* ColourConfig.h in Sources */,
 				DA5B745F18F239B700BB5F8E /* ChoosePersonViewController.m in Sources */,
 				AA7D00631B312D5F002C28C3 /* TopBarView.m in Sources */,
+				AAD539471B56095E008D8D55 /* WYPopoverController.m in Sources */,
 				AA6A84551B2B9F04005C064B /* IGRequest.m in Sources */,
 				DA5B746018F239B700BB5F8E /* Person.m in Sources */,
 				AA18DCAE1B267FBA00949EAF /* InstagramLoginView.m in Sources */,
@@ -578,6 +602,8 @@
 				3A3CD29F1B31191500842D45 /* LeaderboardViewController.m in Sources */,
 				AA832CB51B2BB2D800D0EC81 /* TabBarController.m in Sources */,
 				DA5B73F518F233EF00BB5F8E /* main.m in Sources */,
+				AAD539481B56095E008D8D55 /* WYStoryboardPopoverSegue.m in Sources */,
+				AAD5393F1B560086008D8D55 /* Post.m in Sources */,
 				AA832CB81B2BBF0B00D0EC81 /* LoginViewController.m in Sources */,
 				3A9B90D01B30B08900B76901 /* ProfileViewController.m in Sources */,
 				AA7D006A1B3131FB002C28C3 /* HamburgerMenuView.m in Sources */,

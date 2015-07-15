@@ -24,8 +24,7 @@
 
 #import "ChoosePersonView.h"
 #import "ImageLabelView.h"
-#import "Person.h"
-
+#import "Post.h"
 static const CGFloat ChoosePersonViewImageLabelWidth = 42.f;
 
 @interface ChoosePersonView ()
@@ -38,15 +37,20 @@ static const CGFloat ChoosePersonViewImageLabelWidth = 42.f;
 
 @implementation ChoosePersonView
 @synthesize isTop;
+@synthesize pop;
+@synthesize post;
 #pragma mark - Object Lifecycle
 
 - (instancetype)initWithFrame:(CGRect)frame
-                       url:(NSString *)url
+                       post:(Post *)p
                       options:(MDCSwipeToChooseViewOptions *)options{
     self = [super initWithFrame:frame options:options];
     if (self) {
-        //self.imageView.image = _person.image;
         
+        self.post = p;
+        
+        //self.imageView.image = _person.image;
+        NSString *url = post.url;
         self.imageView.layer.cornerRadius = 5.f;
         [self downloadImageWithURL:[NSURL URLWithString:url] completionBlock:^(BOOL succeeded, NSData *data) {
             if (succeeded) {
@@ -60,11 +64,47 @@ static const CGFloat ChoosePersonViewImageLabelWidth = 42.f;
                                 UIViewAutoresizingFlexibleWidth |
                                 UIViewAutoresizingFlexibleBottomMargin;
         self.imageView.autoresizingMask = self.autoresizingMask;
+        
+        // Tapping gesture
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+        tapGesture.numberOfTapsRequired=1;
+        [self setUserInteractionEnabled:YES];
+        [self addGestureRecognizer:tapGesture];
     }
     return self;
 }
 
 #pragma mark - Internal Methods
+
+- (void)handleTapGesture:(UIGestureRecognizer *) gesture {
+    UIViewController *popover = [UIViewController new];
+    UILabel *menuLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, popover.view.frame.size.width - 20,50)];
+    menuLabel.font = [UIFont systemFontOfSize:20];
+    menuLabel.textColor = [UIColor colorWithRed:text_colour green:text_colour blue:text_colour alpha:1.0];
+    menuLabel.text = [NSString stringWithFormat:@"Posted by: %@", self.post.user];
+    menuLabel.backgroundColor = [UIColor clearColor];
+    menuLabel.textAlignment = NSTextAlignmentCenter;
+    [menuLabel sizeToFit];
+    [self addSubview:menuLabel];
+    
+    [popover.view addSubview:menuLabel];
+    pop = [[WYPopoverController alloc]initWithContentViewController:popover];
+    [pop setDelegate:self];
+    [pop presentPopoverFromRect:self.bounds inView:self permittedArrowDirections:WYPopoverArrowDirectionAny animated:YES];
+    [pop setPopoverContentSize:CGSizeMake(menuLabel.frame.size.width + 20, 50)];
+}
+
+- (BOOL)popoverControllerShouldDismissPopover:(WYPopoverController *)controller
+{
+    return YES;
+}
+
+- (void)popoverControllerDidDismissPopover:(WYPopoverController *)controller
+{
+    pop.delegate = nil;
+    pop = nil;
+}
+
 
 - (ImageLabelView *)buildImageLabelViewLeftOf:(CGFloat)x image:(UIImage *)image text:(NSString *)text {
     CGRect frame = CGRectMake(x - ChoosePersonViewImageLabelWidth,

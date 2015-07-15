@@ -24,15 +24,17 @@
 
 #import <UIKit/UIKit.h>
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
+#import "WYPopoverController.h"
 
-@class Person;
+@class Post;
 
-@interface ChoosePersonView : MDCSwipeToChooseView
+@interface ChoosePersonView : MDCSwipeToChooseView <WYPopoverControllerDelegate>
 
 @property (nonatomic) bool isTop;
-
+@property (nonatomic, strong) WYPopoverController *pop;
+@property (nonatomic, strong) Post *post;
 - (instancetype)initWithFrame:(CGRect)frame
-                       url:(NSString *)url
+                       post:(Post *)post
                       options:(MDCSwipeToChooseViewOptions *)options;
 
 @end
