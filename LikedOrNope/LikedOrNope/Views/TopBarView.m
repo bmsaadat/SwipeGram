@@ -41,12 +41,12 @@
         
         
         // Load score
-        NSString *savedScore = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
+        NSNumber *savedScore = [[NSUserDefaults standardUserDefaults] objectForKey:@"savedScore"];
         
         score = [[UILabel alloc] initWithFrame:CGRectMake(frame.size.width * 0.5 + 10, 0, frame.size.width * 0.5,self.frame.size.height)];
         score.font = [UIFont systemFontOfSize:16];
         score.textColor = [UIColor colorWithRed:r_colour green:g_colour blue:b_colour alpha:1.0];
-        score.text = savedScore;
+        score.text = [savedScore description];
         score.backgroundColor = [UIColor clearColor];
         score.textAlignment = NSTextAlignmentLeft;
         [self addSubview:score];
@@ -58,7 +58,7 @@
     NSInteger currentScore = [score.text intValue];
     currentScore += amount;
     score.text = [NSString stringWithFormat:@"%ld", (long)currentScore];
-    [[NSUserDefaults standardUserDefaults] setObject:score.text forKey:@"savedScore"];
+    [[NSUserDefaults standardUserDefaults] setInteger:currentScore forKey:@"savedScore"];
 }
 
 - (void)hamburgerPressed: (UIButton *)button {    

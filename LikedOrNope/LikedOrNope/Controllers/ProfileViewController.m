@@ -35,8 +35,8 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getUserInfo];
     [self setupSubviews];
+    [self getUserInfo];
 }
 
 - (void)setupSubviews {
@@ -236,6 +236,11 @@ static NSString * const kLabelFont = @"OpenSans-Semibold";
     [[NSUserDefaults standardUserDefaults] setObject:full_Name forKey:@"full_Name"];
     NSString *profilepicURL = [post objectForKey:@"profile_picture"];
     [[NSUserDefaults standardUserDefaults] setObject:profilepicURL forKey:@"profile_picture"];
+    
+    // REfersh the views
+    _avatarImageView.image = [self getImageFromURL:[[NSUserDefaults standardUserDefaults] objectForKey:@"profile_picture"]];
+    _nameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"full_Name"];    
+    _usernameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userName"];
 }
 
 /**

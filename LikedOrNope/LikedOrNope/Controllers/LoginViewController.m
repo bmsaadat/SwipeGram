@@ -35,6 +35,7 @@
     if ([appDelegate.instagram isSessionValid]) {
         // Tear down login view
         [self tearDownLoginView];
+        [self scoreAuthentication];
     }
 }
 
@@ -52,12 +53,7 @@
 // IGSessionDelegate
 #pragma mark - IGSessionDelegate
 
--(void)igDidLogin {
-    // here i can store accessToken
-    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    [[NSUserDefaults standardUserDefaults] setObject:appDelegate.instagram.accessToken forKey:@"accessToken"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
+- (void)scoreAuthentication {
     PFQuery *query = [PFQuery queryWithClassName:@"UserScore"];
     [query whereKey:@"accessToken" equalTo:[[NSUserDefaults standardUserDefaults] objectForKey:@"accessToken"]];
     if ([query getFirstObject]) {
@@ -93,7 +89,16 @@
             }
         }];
     }
+
+}
+
+-(void)igDidLogin {
+    // here i can store accessToken
+    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
+    [[NSUserDefaults standardUserDefaults] setObject:appDelegate.instagram.accessToken forKey:@"accessToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
+    [self scoreAuthentication];
     [self tearDownLoginView];
 }
 

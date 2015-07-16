@@ -101,7 +101,6 @@
 }
 
 - (void)loadMainViews {
-    [self generateRandomIndex];
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
     self.topCardView = [self popDownPersonViewWithFrame:[self topCardViewFrame]];
